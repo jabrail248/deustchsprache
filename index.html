@@ -4,8 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Deutsch250 — Alman dilində 250 vacib söz</title>
-  <meta name="description" content="A1-dən C1-ə 250 vacib Alman sözünü Azərbaycan və İngilis dillərində öyrən." />
-<link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="A1-dən C1-ə qədər 250 vacib Alman sözünü Azərbaycan və İngilis dillərində öyrən." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="ambient ambient-one"></div>
@@ -33,16 +36,16 @@
       <div class="hero-copy reveal">
         <div class="hero-badge"><span class="pulse-dot"></span> 250 vacib söz · A1 → C1</div>
         <p class="eyebrow">ALMAN DİLİNİ DAHA AĞILLI ÖYRƏN</p>
-        <h1>Həqiqətən istifadə edəcəyin <em>sözləri öyrən.</em></h1>
-        <p class="lead">A1-dən C1-ə qədər ən vacib Alman sözlərini Azərbaycan və İngilis dillərində öyrən. Tələffüz et, quiz həll et və proqresini izlə.</p>
+        <h1>Həqiqətən <em>işlədəcəyin</em> Alman sözlərini öyrən.</h1>
+        <p class="lead">A1-dən C1-ə qədər 250 vacib Alman sözü. Azərbaycan və İngilis tərcümələri, tələffüz, quiz və proqres izləmə — hamısı bir yerdə.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#learn">Öyrənməyə başla <span>→</span></a>
           <button class="btn secondary" id="randomWordBtn" type="button">Təsadüfi söz</button>
         </div>
         <div class="trust-row">
           <div><span class="trust-icon">✓</span><span><b>5 səviyyə</b><small>A1-dən C1-ə</small></span></div>
-          <div><span class="trust-icon">↗</span><span><b>Proqresi izlə</b><small>Cihazında saxlanılır</small></span></div>
-          <div><span class="trust-icon">◉</span><span><b>Tələffüz</b><small>Bir kliklə dinlə</small></span></div>
+          <div><span class="trust-icon">↗</span><span><b>Proqresi izlə</b><small>Brauzerdə saxlanılır</small></span></div>
+          <div><span class="trust-icon">◉</span><span><b>Tələffüz</b><small>Bir kliklə</small></span></div>
         </div>
       </div>
 
@@ -54,7 +57,7 @@
             <span class="level-pill level-B2">B2 · VERB</span>
             <button class="speaker-btn" type="button" data-speak="beeinflussen" aria-label="Listen to beeinflussen">♪</button>
           </div>
-          <div class="word-number">SÖZ 176</div>
+          <div class="word-number">WORD 176</div>
           <h2>beeinflussen</h2>
           <p class="translation" id="heroMeaning">to influence</p>
           <div class="mini-divider"></div>
@@ -79,13 +82,13 @@
     <section id="learn" class="section shell">
       <div class="section-head reveal">
         <div>
-          <p class="eyebrow">SÖZ BAZASI</p>
+          <p class="eyebrow">SÖZLÜYÜ KƏŞF ET</p>
           <h2>Səviyyəni seç.</h2>
-          <p class="section-copy">Səviyyə-səviyyə öyrən və ya 250 sözün içində axtarış et.</p>
+          <p class="section-copy">Səviyyə-səviyyə öyrən və ya 250 söz arasında dərhal axtar.</p>
         </div>
         <label class="search-wrap">
           <span>⌕</span>
-          <input id="searchInput" type="search" placeholder="Alman və ya Azərbaycan dilində axtar…" autocomplete="off" />
+          <input id="searchInput" type="search" placeholder="Almanca və ya Azərbaycan dilində axtar…" autocomplete="off" />
         </label>
       </div>
 
@@ -108,7 +111,7 @@
         <div class="quiz-intro reveal">
           <p class="eyebrow light">SÜRƏTLİ MƏŞQ</p>
           <h2>Sözü yadda saxla.</h2>
-          <p>10 qısa sual həll et, cavabını dərhal yoxla və yeni sözləri yadda möhkəmləndir.</p>
+          <p>10 qısa sual. Dərhal nəticəni gör və yeni sözləri praktikada möhkəmləndir.</p>
           <div class="quiz-meta">
             <label>Səviyyə
               <select id="quizLevel"></select>
@@ -119,7 +122,7 @@
 
         <div class="quiz-card reveal" id="quizCard">
           <div class="quiz-card-top">
-            <span id="quizCounter">Sual 1</span>
+            <span id="quizCounter">Question 1</span>
             <button class="speaker-btn dark" id="quizSpeak" type="button" aria-label="Listen to quiz word">♪</button>
           </div>
           <p class="quiz-label">Bu söz nə deməkdir?</p>
@@ -146,8 +149,8 @@
           <div class="ring" id="overallRing"><span id="overallPercent">0%</span></div>
           <div>
             <span class="small-label">ÜMUMİ PROQRES</span>
-            <h3 id="masteryMessage">Səyahətin buradan başlayır.</h3>
-            <p>Sözləri bir-bir öyrən. Proqresin bu brauzerdə saxlanılır.</p>
+            <h3 id="masteryMessage">Sənin öyrənmə yolun buradan başlayır.</h3>
+            <p>Sözləri addım-addım öyrən. Proqresin bu brauzerdə saxlanılır.</p>
           </div>
         </div>
 
@@ -167,12 +170,12 @@
 
   <footer>
     <div class="shell footer-inner">
-      <div><a class="brand footer-brand" href="#home"><span class="brand-mark">D</span><span>Deutsch<b>250</b></span></a><p>Alman dili üçün praktik və fokuslanmış söz bazası.</p></div>
-      <div class="footer-note">Hesab yaratmağa ehtiyac yoxdur · Proqres cihazında saxlanılır</div>
+      <div><a class="brand footer-brand" href="#home"><span class="brand-mark">D</span><span>Deutsch<b>250</b></span></a><p>Alman dili üçün məqsədli söz bazası.</p></div>
+      <div class="footer-note">Sadə və sürətli · Hesab tələb olunmur</div>
     </div>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>

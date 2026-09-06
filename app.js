@@ -264,36 +264,11 @@ const words = [
 ['C1','gewährleisten','to ensure','verb'],['C1','nachvollziehen','to comprehend / follow','verb'],['C1','einräumen','to concede / grant','verb'],['C1','hervorheben','to emphasize','verb'],['C1','abwägen','to weigh up','verb'],['C1','unterliegen','to be subject to','verb'],['C1','vorausgehen','to precede','verb'],['C1','verdeutlichen','to clarify / illustrate','verb'],['C1','wahrnehmen','to perceive / exercise','verb'],['C1','aufweisen','to exhibit / show','verb'],['C1','mithin','thus / consequently','connector'],['C1','insofern','insofar / in this respect','connector'],['C1','demnach','accordingly','connector'],['C1','folglich','consequently','connector'],['C1','weitgehend','largely','adverb'],['C1','maßgeblich','decisive / significant','adjective'],['C1','unerlässlich','indispensable','adjective'],['C1','hinreichend','sufficient','adjective'],['C1','nachhaltig','sustainable','adjective'],['C1','einschlägig','relevant / applicable','adjective'],['C1','die Abwägung','balancing / weighing','noun'],['C1','die Gegebenheit','circumstance / condition','noun'],['C1','der Umstand','circumstance','noun'],['C1','die Auffassung','view / opinion','noun'],['C1','die Tragweite','scope / significance','noun']
 ].map((w,i)=>({id:i+1,level:w[0],de:w[1],en:w[2],az:azTranslations[i],type:w[3]}));
 
-const safeStorage = {
-  get(key, fallback = null) {
-    try {
-      const value = window.localStorage.getItem(key);
-      return value === null ? fallback : value;
-    } catch (error) {
-      return fallback;
-    }
-  },
-  set(key, value) {
-    try { window.localStorage.setItem(key, value); } catch (error) {}
-  }
-};
-
-function loadProgress(){
-  try {
-    const raw = safeStorage.get('deutsch250-progress', '{}');
-    const parsed = JSON.parse(raw || '{}');
-    return parsed && typeof parsed === 'object' ? parsed : {};
-  } catch (error) {
-    return {};
-  }
-}
-
 const levelCounts={A1:50,A2:50,B1:75,B2:50,C1:25};
-const levelLabels={A1:'Başlanğıc',A2:'Gündəlik',B1:'Orta',B2:'Yüksək',C1:'İrəli'};
+const levelLabels={A1:'Təməl',A2:'Gündəlik',B1:'Müstəqil',B2:'Yuxarı',C1:'İrəli'};
 let activeLevel='A1';
-let translationLanguage=safeStorage.get('deutsch250-language','az')||'az';
-if(!['en','az'].includes(translationLanguage)) translationLanguage='az';
-let progress=loadProgress();
+let translationLanguage=localStorage.getItem('deutsch250-language')||'en';
+let progress=JSON.parse(localStorage.getItem('deutsch250-progress')||'{}');
 let currentQuiz=null;
 let quizAnswered=0;
 let quizCorrect=0;
@@ -301,11 +276,11 @@ const $=s=>document.querySelector(s);
 
 
 function meaning(w){ return translationLanguage==='az' ? w.az : w.en; }
-function languageName(){ return translationLanguage==='az' ? 'Azərbaycan' : 'İngilis'; }
+function languageName(){ return translationLanguage==='az' ? 'Azərbaycan dili' : 'İngilis dili'; }
 function updateLanguageUI(){
   document.querySelectorAll('.language-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===translationLanguage));
   const search=$('#searchInput');
-  if(search) search.placeholder=`Alman və ya ${languageName()} dilində axtar…`;
+  if(search) search.placeholder=`Almanca və ya ${languageName()} üzrə axtar…`;
   const heroMeaning=$('#heroMeaning');
   if(heroMeaning) heroMeaning.textContent=translationLanguage==='az'?'təsir etmək':'to influence';
   const heroExample=$('#heroExampleTranslation');
@@ -317,46 +292,45 @@ function updateLanguageUI(){
 $('#languageToggle').addEventListener('click',e=>{
   const b=e.target.closest('button[data-lang]'); if(!b)return;
   translationLanguage=b.dataset.lang;
-  safeStorage.set('deutsch250-language',translationLanguage);
+  localStorage.setItem('deutsch250-language',translationLanguage);
   updateLanguageUI();
   showToast(translationLanguage==='az'?'Mənalar Azərbaycan dilində göstərilir.':'Mənalar İngilis dilində göstərilir.');
 });
 
 function save(){
-  safeStorage.set('deutsch250-progress',JSON.stringify(progress));
+  localStorage.setItem('deutsch250-progress',JSON.stringify(progress));
   updateDashboard();
 }
 function state(id){return progress[id]||'new'}
 function setState(id,val){
   if(state(id)===val) delete progress[id]; else progress[id]=val;
-  save(); renderWords(); showToast(val==='mastered'?'Söz öyrənildi ✓':val==='learning'?'Söz öyrənmə siyahısına əlavə edildi':'Söz yenidən “Yeni” bölməsinə qaytarıldı');
+  save(); renderWords(); showToast(val==='mastered'?'Söz öyrənildi ✓':val==='learning'?'Öyrənmə siyahısına əlavə edildi':'Yeni sözlərə qaytarıldı');
 }
 function showToast(message){
   const toast=$('#toast'); toast.textContent=message; toast.classList.add('show');
   clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>toast.classList.remove('show'),1800);
 }
 function speak(text){
-  if(!('speechSynthesis' in window)){showToast('Bu brauzer səsli tələffüzü dəstəkləmir.');return;}
+  if(!('speechSynthesis' in window)){showToast('Bu brauzerdə tələffüz dəstəklənmir.');return;}
   speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='de-DE'; u.rate=.88; speechSynthesis.speak(u);
 }
 
 function initTheme(){
-  const saved=safeStorage.get('deutsch250-theme');
-  const prefersDark=typeof window.matchMedia==='function' && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const preferred=saved || (prefersDark?'dark':'light');
+  const saved=localStorage.getItem('deutsch250-theme');
+  const preferred=saved || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
   document.documentElement.dataset.theme=preferred; updateThemeIcon();
 }
 function updateThemeIcon(){ $('#themeToggle').textContent=document.documentElement.dataset.theme==='dark'?'☀':'☾'; }
 $('#themeToggle').addEventListener('click',()=>{
   const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
-  document.documentElement.dataset.theme=next; safeStorage.set('deutsch250-theme',next); updateThemeIcon();
+  document.documentElement.dataset.theme=next; localStorage.setItem('deutsch250-theme',next); updateThemeIcon();
 });
 
 function initLevels(){
   const wrap=$('#levelButtons');
-  wrap.innerHTML=Object.entries(levelCounts).map(([l,c])=>`<button class="level-btn ${l===activeLevel?'active':''}" data-level="${l}"><b>${l}</b><span>${c} words</span><small>${levelLabels[l]}</small></button>`).join('');
+  wrap.innerHTML=Object.entries(levelCounts).map(([l,c])=>`<button class="level-btn ${l===activeLevel?'active':''}" data-level="${l}"><b>${l}</b><span>${c} söz</span><small>${levelLabels[l]}</small></button>`).join('');
   const q=$('#quizLevel');
-  q.innerHTML=Object.keys(levelCounts).map(l=>`<option value="${l}">${l} · ${levelCounts[l]} words</option>`).join('');
+  q.innerHTML=Object.keys(levelCounts).map(l=>`<option value="${l}">${l} · ${levelCounts[l]} söz</option>`).join('');
   q.value=activeLevel;
 }
 $('#levelButtons').addEventListener('click',e=>{
@@ -378,15 +352,15 @@ function renderWords(){
     return `<article class="word-card" data-level="${w.level}">
       <div class="word-top">
         <span class="tag">${w.level} · ${w.type}</span>
-        <div class="word-top-right"><span class="status-dot ${s}"></span><span class="status-text">${({new:'yeni',learning:'öyrənilir',mastered:'öyrənildi'}[s])}</span><button class="speaker-btn" data-speak="${escapeHtml(w.de)}" type="button" aria-label="Listen to ${escapeHtml(w.de)}">♪</button></div>
+        <div class="word-top-right"><span class="status-dot ${s}"></span><span class="status-text">${translationLanguage==='az'?({new:'yeni',learning:'öyrənilir',mastered:'öyrənildi'}[s]):s}</span><button class="speaker-btn" data-speak="${escapeHtml(w.de)}" type="button" aria-label="Listen to ${escapeHtml(w.de)}">♪</button></div>
       </div>
       <h3>${escapeHtml(w.de)}</h3><p class="meaning">${escapeHtml(meaning(w))}</p>
       <div class="word-actions">
-        <button data-id="${w.id}" data-state="learning" class="${s==='learning'?'active-learning':''}">Öyrənilir</button>
-        <button data-id="${w.id}" data-state="mastered" class="${s==='mastered'?'active-mastered':''}">Öyrənildi</button>
+        <button data-id="${w.id}" data-state="learning" class="${s==='learning'?'active-learning':''}">${translationLanguage==='az'?'Öyrənilir':'Learning'}</button>
+        <button data-id="${w.id}" data-state="mastered" class="${s==='mastered'?'active-mastered':''}">${translationLanguage==='az'?'Öyrənildi':'Mastered'}</button>
       </div>
     </article>`;
-  }).join(''):'<div class="empty-state"><strong>Söz tapılmadı.</strong><br>Başqa axtarış və ya filtr yoxla.</div>';
+  }).join(''):'<div class="empty-state"><strong>Söz tapılmadı.</strong><br>Başqa axtarış və ya filtr sına.</div>';
 }
 function escapeHtml(v){return String(v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 $('#wordGrid').addEventListener('click',e=>{
@@ -427,7 +401,7 @@ $('#quizOptions').addEventListener('click',e=>{
   if(!ok)b.classList.add('wrong');
   quizAnswered++; if(ok)quizCorrect++; updateQuizScore();
   $('#quizFeedback').textContent=ok?(translationLanguage==='az'?'Doğrudur ✓':'Correct ✓'):(translationLanguage==='az'?`Yanlışdır. “${currentQuiz.de}” “${meaning(currentQuiz)}” deməkdir.`:`Not quite. “${currentQuiz.de}” means “${meaning(currentQuiz)}”.`);
-  $('#nextQuiz').textContent=quizAnswered>=10?'Nəticəni gör →':'Növbəti sual →'; $('#nextQuiz').classList.remove('hidden');
+  $('#nextQuiz').textContent=quizAnswered>=10?'Nəticəyə bax →':'Növbəti sual →'; $('#nextQuiz').classList.remove('hidden');
   if(ok&&state(currentQuiz.id)==='new'){progress[currentQuiz.id]='learning';save();}
 });
 $('#nextQuiz').addEventListener('click',()=>newQuiz(false));
@@ -440,7 +414,7 @@ function updateDashboard(){
   const pct=Math.round(mastered/words.length*100);
   $('#masteredCount').textContent=mastered; $('#learningCount').textContent=learning; $('#newCount').textContent=words.length-mastered-learning; $('#overallPercent').textContent=`${pct}%`;
   $('#overallRing').style.setProperty('--p',`${pct*3.6}deg`);
-  $('#masteryMessage').textContent=pct===0?'Səyahətin buradan başlayır.':pct<25?'Yaxşı başlanğıcdır — davam et.':pct<60?'Əla irəliləyiş — davam et.':pct<100?'Məqsədə çox yaxınsan.':'250 sözün hamısını öyrəndin!';
+  $('#masteryMessage').textContent=pct===0?'Sənin öyrənmə yolun buradan başlayır.':pct<25?'Yaxşı başlanğıcdır.':pct<60?'Əla irəliləyiş — davam et.':pct<100?'Məqsədə çox yaxınsan.':'250 sözün hamısını öyrəndin!';
   $('#progressBars').innerHTML=Object.keys(levelCounts).map(l=>{
     const ws=words.filter(w=>w.level===l); const m=ws.filter(w=>state(w.id)==='mastered').length; const p=Math.round(m/ws.length*100);
     return `<div class="bar-row"><b>${l}</b><div class="bar"><div style="width:${p}%"></div></div><span>${m}/${ws.length}</span></div>`;
@@ -455,11 +429,7 @@ $('#randomWordBtn').addEventListener('click',()=>{
   document.querySelector('#learn').scrollIntoView({behavior:'smooth'}); setTimeout(()=>speak(w.de),500);
 });
 
-if('IntersectionObserver' in window){
-  const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
-  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-}else{
-  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
-}
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
 initTheme(); initLevels(); updateLanguageUI(); updateDashboard(); newQuiz(true);

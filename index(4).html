@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deutsch250 — German vocabulary that sticks</title>
+  <meta name="description" content="Learn 250 high-value German words from A1 to C1 with pronunciation, progress tracking and quizzes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Deutsch250 home">
+      <span class="brand-mark">D</span>
+      <span>Deutsch<b>250</b></span>
+    </a>
+    <nav>
+      <a href="#learn">Learn</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#progress">Progress</a>
+    </nav>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle theme">☾</button>
+  </header>
+
+  <main>
+    <section id="home" class="hero shell">
+      <div class="hero-copy reveal">
+        <div class="hero-badge"><span class="pulse-dot"></span> 250 useful words · A1 → C1</div>
+        <p class="eyebrow">SMARTER GERMAN VOCABULARY</p>
+        <h1>Learn words you’ll <em>actually use.</em></h1>
+        <p class="lead">A focused German vocabulary trainer with CEFR levels, pronunciation, quizzes, and progress that stays on your device.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#learn">Start learning <span>→</span></a>
+          <button class="btn secondary" id="randomWordBtn" type="button">Surprise me</button>
+        </div>
+        <div class="trust-row">
+          <div><span class="trust-icon">✓</span><span><b>5 levels</b><small>A1 to C1</small></span></div>
+          <div><span class="trust-icon">↗</span><span><b>Track progress</b><small>Saved locally</small></span></div>
+          <div><span class="trust-icon">◉</span><span><b>Pronunciation</b><small>One click</small></span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="float-chip chip-one">A1 · sein</div>
+        <div class="float-chip chip-two">C1 · mithin</div>
+        <div class="study-card" id="heroStudyCard">
+          <div class="study-card-head">
+            <span class="level-pill level-B2">B2 · VERB</span>
+            <button class="speaker-btn" type="button" data-speak="beeinflussen" aria-label="Listen to beeinflussen">♪</button>
+          </div>
+          <div class="word-number">WORD 176</div>
+          <h2>beeinflussen</h2>
+          <p class="translation">to influence</p>
+          <div class="mini-divider"></div>
+          <div class="example-box">
+            <span>Example</span>
+            <p>Soziale Medien beeinflussen unsere Entscheidungen.</p>
+            <small>Social media influences our decisions.</small>
+          </div>
+          <div class="study-actions">
+            <button class="state-btn">Still learning</button>
+            <button class="state-btn success">Got it ✓</button>
+          </div>
+        </div>
+        <div class="mini-progress-card">
+          <span>This level</span>
+          <strong>24%</strong>
+          <div class="tiny-bar"><i style="width:24%"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="learn" class="section shell">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">EXPLORE THE LIBRARY</p>
+          <h2>Choose your level.</h2>
+          <p class="section-copy">Work level by level, or search all 250 words instantly.</p>
+        </div>
+        <label class="search-wrap">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="Search German or English…" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="levels" id="levelButtons"></div>
+
+      <div class="toolbar">
+        <div><strong id="wordCount">0 words</strong><span class="toolbar-note" id="filterHint"> in A1</span></div>
+        <select id="statusFilter" aria-label="Filter by learning status">
+          <option value="all">All words</option>
+          <option value="new">New</option>
+          <option value="learning">Learning</option>
+          <option value="mastered">Mastered</option>
+        </select>
+      </div>
+      <div class="word-grid" id="wordGrid"></div>
+    </section>
+
+    <section id="quiz" class="quiz-section">
+      <div class="quiz-shell shell">
+        <div class="quiz-intro reveal">
+          <p class="eyebrow light">QUICK PRACTICE</p>
+          <h2>Make the word stick.</h2>
+          <p>Ten quick questions. Get instant feedback and turn new words into learning words automatically.</p>
+          <div class="quiz-meta">
+            <label>Level
+              <select id="quizLevel"></select>
+            </label>
+            <div class="score-box"><span>Score</span><strong id="quizScore">0 / 0</strong></div>
+          </div>
+        </div>
+
+        <div class="quiz-card reveal" id="quizCard">
+          <div class="quiz-card-top">
+            <span id="quizCounter">Question 1</span>
+            <button class="speaker-btn dark" id="quizSpeak" type="button" aria-label="Listen to quiz word">♪</button>
+          </div>
+          <p class="quiz-label">What does this mean?</p>
+          <h3 id="quizWord">—</h3>
+          <div id="quizOptions" class="quiz-options"></div>
+          <div id="quizFeedback" class="quiz-feedback"></div>
+          <button id="nextQuiz" class="btn quiz-next hidden" type="button">Next question →</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="progress" class="section shell progress-section">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">YOUR PROGRESS</p>
+          <h2>Small steps add up.</h2>
+          <p class="section-copy">Mark words as Learning or Mastered and watch each level fill up.</p>
+        </div>
+        <button id="resetProgress" class="btn subtle-danger" type="button">Reset progress</button>
+      </div>
+
+      <div class="progress-layout">
+        <div class="overall-card reveal">
+          <div class="ring" id="overallRing"><span id="overallPercent">0%</span></div>
+          <div>
+            <span class="small-label">OVERALL MASTERY</span>
+            <h3 id="masteryMessage">Your journey starts here.</h3>
+            <p>Master words one by one. Your progress is stored in this browser.</p>
+          </div>
+        </div>
+
+        <div class="progress-cards reveal">
+          <div class="progress-card mastered-card"><span>Mastered</span><strong id="masteredCount">0</strong><small>words completed</small></div>
+          <div class="progress-card learning-card"><span>Learning</span><strong id="learningCount">0</strong><small>in your queue</small></div>
+          <div class="progress-card new-card"><span>New</span><strong id="newCount">250</strong><small>waiting for you</small></div>
+        </div>
+      </div>
+
+      <div class="level-progress-panel reveal">
+        <div class="panel-head"><strong>Progress by level</strong><span>Mastered words</span></div>
+        <div id="progressBars" class="progress-bars"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <div><a class="brand footer-brand" href="#home"><span class="brand-mark">D</span><span>Deutsch<b>250</b></span></a><p>Focused vocabulary for real German.</p></div>
+      <div class="footer-note">Built as a lightweight MVP · No account required</div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

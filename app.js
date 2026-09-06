@@ -267,8 +267,21 @@ const words = [
 const levelCounts={A1:50,A2:50,B1:75,B2:50,C1:25};
 const levelLabels={A1:'Təməl',A2:'Gündəlik',B1:'Müstəqil',B2:'Yuxarı',C1:'İrəli'};
 let activeLevel='A1';
-let translationLanguage=localStorage.getItem('deutsch250-language')||'en';
-let progress=JSON.parse(localStorage.getItem('deutsch250-progress')||'{}');
+function safeGet(key, fallback=''){
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : value;
+  } catch (e) {
+    return fallback;
+  }
+}
+function safeSet(key, value){
+  try { localStorage.setItem(key, value); } catch (e) { /* keep site usable */ }
+}
+let translationLanguage=safeGet('deutsch250-language','az');
+if(!['az','en'].includes(translationLanguage)) translationLanguage='az';
+let progress={};
+try { progress=JSON.parse(safeGet('deutsch250-progress','{}'))||{}; } catch(e) { progress={}; }
 let currentQuiz=null;
 let quizAnswered=0;
 let quizCorrect=0;
@@ -290,15 +303,18 @@ function updateLanguageUI(){
 }
 
 $('#languageToggle').addEventListener('click',e=>{
-  const b=e.target.closest('button[data-lang]'); if(!b)return;
-  translationLanguage=b.dataset.lang;
-  localStorage.setItem('deutsch250-language',translationLanguage);
+  const b=e.target.closest('button[data-lang]');
+  if(!b)return;
+  const nextLanguage=b.dataset.lang;
+  if(!['az','en'].includes(nextLanguage))return;
+  translationLanguage=nextLanguage;
   updateLanguageUI();
-  showToast(translationLanguage==='az'?'Mənalar Azərbaycan dilində göstərilir.':'Mənalar İngilis dilində göstərilir.');
+  safeSet('deutsch250-language',translationLanguage);
+  showToast(translationLanguage==='az'?'Mənalar Azərbaycan dilində göstərilir.':'Meanings are shown in English.');
 });
 
 function save(){
-  localStorage.setItem('deutsch250-progress',JSON.stringify(progress));
+  safeSet('deutsch250-progress',JSON.stringify(progress));
   updateDashboard();
 }
 function state(id){return progress[id]||'new'}
@@ -316,14 +332,14 @@ function speak(text){
 }
 
 function initTheme(){
-  const saved=localStorage.getItem('deutsch250-theme');
+  const saved=safeGet('deutsch250-theme','');
   const preferred=saved || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
   document.documentElement.dataset.theme=preferred; updateThemeIcon();
 }
 function updateThemeIcon(){ $('#themeToggle').textContent=document.documentElement.dataset.theme==='dark'?'☀':'☾'; }
 $('#themeToggle').addEventListener('click',()=>{
   const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
-  document.documentElement.dataset.theme=next; localStorage.setItem('deutsch250-theme',next); updateThemeIcon();
+  document.documentElement.dataset.theme=next; safeSet('deutsch250-theme',next); updateThemeIcon();
 });
 
 function initLevels(){

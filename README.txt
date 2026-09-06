@@ -18,3 +18,6 @@ Features:
 - Light / dark mode
 - Responsive mobile layout
 - No backend required
+
+- English / Azerbaijani translation toggle (EN ↔ AZ)
+- Quiz answers automatically use the selected translation language

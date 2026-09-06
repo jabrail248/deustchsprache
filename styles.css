@@ -39,3 +39,48 @@ footer{border-top:1px solid var(--line);background:var(--surface)}.footer-inner{
 @media(max-width:980px){.hero{grid-template-columns:1fr;min-height:auto;gap:35px}.hero-copy{text-align:center}.lead{margin-left:auto;margin-right:auto}.hero-actions,.trust-row{justify-content:center}.hero-visual{min-height:530px}.levels{grid-template-columns:repeat(3,1fr)}.word-grid{grid-template-columns:repeat(2,1fr)}.quiz-shell{grid-template-columns:1fr;gap:45px}.quiz-intro{text-align:center}.quiz-intro p:not(.eyebrow){margin-left:auto;margin-right:auto}.quiz-meta{justify-content:center}.progress-layout{grid-template-columns:1fr}.progress-cards{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:660px){.shell{width:min(100% - 28px,1180px)}.topbar{top:8px;margin-top:8px}.topbar nav{display:none}.hero{padding:72px 0 64px}.hero h1{font-size:3.45rem}.lead{font-size:1rem}.trust-row{gap:14px}.trust-row>div{width:calc(50% - 8px)}.hero-visual{min-height:470px}.hero-visual::before{width:330px;height:330px}.study-card{width:min(340px,90vw);padding:22px}.study-card h2{font-size:2rem}.float-chip{display:none}.mini-progress-card{right:0;top:70px}.section{padding:74px 0}.section-head{align-items:flex-start;flex-direction:column}.search-wrap{width:100%}.levels{grid-template-columns:1fr 1fr}.word-grid{grid-template-columns:1fr}.toolbar{gap:12px}.toolbar-note{display:none}.quiz-section{margin-top:20px;border-radius:30px 30px 0 0}.quiz-shell{padding:72px 0}.quiz-card{padding:22px}.quiz-options{grid-template-columns:1fr}.progress-cards{grid-template-columns:1fr}.overall-card{align-items:flex-start;flex-direction:column}.ring{width:110px}.panel-head{align-items:flex-start;gap:5px;flex-direction:column}.bar-row{grid-template-columns:42px 1fr 58px}.footer-inner{flex-direction:column;align-items:flex-start}.toast{left:14px;right:14px;bottom:14px;text-align:center}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+
+/* Translation language switch */
+.language-toggle{
+  display:inline-flex;
+  align-items:center;
+  padding:4px;
+  gap:3px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:var(--surface);
+  box-shadow:var(--shadow-sm);
+}
+.language-toggle button{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font:700 .76rem/1 'DM Sans',sans-serif;
+  letter-spacing:.05em;
+  min-width:36px;
+  height:30px;
+  padding:0 9px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.language-toggle button:hover{color:var(--text)}
+.language-toggle button.active{
+  background:var(--text);
+  color:var(--surface);
+  box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+.meaning-language{
+  display:block;
+  margin-top:-10px;
+  margin-bottom:16px;
+  color:var(--muted);
+  font-size:.64rem;
+  font-weight:800;
+  letter-spacing:.11em;
+}
+@media (max-width:760px){
+  .topbar nav{display:none}
+  .language-toggle{margin-left:auto}
+}

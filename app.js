@@ -1,3 +1,256 @@
+const azTranslations = [
+  'olmaq',
+  'sahib olmaq',
+  'olmaq / çevrilmək',
+  'bacarmaq',
+  'məcbur olmaq / gərək',
+  'etmək / hazırlamaq',
+  'demək',
+  'getmək',
+  'gəlmək',
+  'görmək',
+  'vermək',
+  'bilmək',
+  'tapmaq',
+  'qalmaq',
+  'götürmək',
+  'danışmaq',
+  'öyrənmək',
+  'işləmək',
+  'yaşamaq',
+  'ehtiyac duymaq',
+  'mən',
+  'sən',
+  'o (kişi)',
+  'o (qadın) / onlar',
+  'biz',
+  'müəyyən artikl / o',
+  'müəyyən artikl (kişi cinsi)',
+  'müəyyən artikl (qadın cinsi / cəm)',
+  'bir / qeyri-müəyyən artikl',
+  'heç bir / ... deyil',
+  'və',
+  'və ya',
+  'amma',
+  'həmçinin / də',
+  'deyil / yox',
+  'burada',
+  'orada',
+  'bu gün',
+  'indi',
+  'həmişə',
+  'yaxşı',
+  'böyük / hündür',
+  'kiçik',
+  'yeni',
+  'köhnə / yaşlı',
+  'kişi',
+  'qadın',
+  'uşaq',
+  'vaxt / zaman',
+  'gün',
+  'soruşmaq',
+  'cavab vermək',
+  'danışmaq / nəql etmək',
+  'izah etmək',
+  'kömək etmək',
+  'göstərmək',
+  'gətirmək',
+  'almaq',
+  'ödəmək',
+  'gözləmək',
+  'başlamaq',
+  'bitmək / sona çatmaq',
+  'sürmək / nəqliyyatla getmək',
+  'qaçmaq / piyada getmək',
+  'yemək',
+  'içmək',
+  'yatmaq',
+  'görüşmək',
+  'ziyarət etmək',
+  'unutmaq',
+  'artıq',
+  'hələ / daha',
+  'yenidən',
+  'tez-tez',
+  'bəzən',
+  'bəlkə',
+  'buna görə',
+  'sonra / onda',
+  'əvvəlcə',
+  'daha sonra',
+  'vacib',
+  'düzgün',
+  'səhv / yanlış',
+  'asan / sadə',
+  'çətin',
+  'sürətli / tez',
+  'yavaş',
+  'bahalı',
+  'ucuz',
+  'azad / boş',
+  'iş',
+  'pul',
+  'ailə',
+  'mənzil',
+  'məktəb',
+  'şəhər',
+  'problem',
+  'sual',
+  'cavab',
+  'il',
+  'düşünmək',
+  'inanmaq / düşünmək',
+  'fikirləşmək / nəzərdə tutmaq',
+  'başa düşmək',
+  'qərar vermək',
+  'cəhd etmək',
+  'planlaşdırmaq',
+  'ümid etmək',
+  'arzulamaq',
+  'hiss etmək',
+  'dəyişmək',
+  'yaxşılaşdırmaq',
+  'inkişaf etdirmək',
+  'nail olmaq / çatmaq',
+  'qaçınmaq',
+  'icazə vermək',
+  'qadağan etmək',
+  'tövsiyə etmək',
+  'gözləmək',
+  'baş vermək',
+  'aid olmaq',
+  'məna vermək',
+  'qüvvədə olmaq / sayılmaq',
+  'çatışmamaq / əskik olmaq',
+  'bacarmaq / yaratmaq',
+  'baxmayaraq ki',
+  'zamanı / ikən',
+  'buna baxmayaraq',
+  'bundan əlavə',
+  'əksinə / deyil, ...',
+  'əgər / olduğu halda',
+  '... kimi / dərhal ki',
+  'bununla / deyə',
+  'bu barədə',
+  'bunun üçün',
+  'əslində',
+  'xüsusilə',
+  'yəqin ki / ehtimal ki',
+  'əlbəttə / təbii olaraq',
+  'təxminən',
+  'birlikdə / ortaq',
+  'fərqli',
+  'mümkün',
+  'zəruri',
+  'tanınmış / məlum',
+  'razı / məmnun',
+  'hazır',
+  'təhlükəsiz / əmin',
+  'aydın',
+  'normal',
+  'təcrübə',
+  'fikir',
+  'imkan',
+  'qərar',
+  'gələcək',
+  'keçmiş',
+  'münasibət',
+  'cəmiyyət',
+  'ətraf mühit',
+  'sağlamlıq',
+  'peşə təhsili / təhsil',
+  'peşə',
+  'səyahət',
+  'fərq',
+  'səbəb',
+  'nümunə',
+  'nəticə',
+  'vəziyyət',
+  'şans / imkan',
+  'məqsəd',
+  'həll',
+  'dəyişiklik',
+  'sahə',
+  'məlumat',
+  'üstünlük',
+  'təsir etmək',
+  'qiymətləndirmək / mühakimə etmək',
+  'əsaslandırmaq',
+  'iddia etmək',
+  'nəzərdən keçirmək / baxmaq',
+  'nəzərə almaq',
+  'təqdim etmək / təsvir etmək',
+  'müəyyən etmək / aşkar etmək',
+  'təşviq etmək / dəstəkləmək',
+  'tələb etmək',
+  'ixtiyarında olmaq / malik olmaq',
+  'müqayisə etmək',
+  'tələb etmək / şərt saymaq',
+  'zidd olmaq / etiraz etmək',
+  'əlaqəli olmaq',
+  'artmaq',
+  'azalmaq',
+  'yaranmaq',
+  'imkan yaratmaq',
+  'qarşısını almaq',
+  'lakin / hərçənd',
+  'buna baxmayaraq',
+  'əksinə / digər tərəfdən',
+  'bu arada / artıq',
+  'xüsusilə',
+  'prinsipcə / ümumiyyətlə',
+  'mühüm / əhəmiyyətli',
+  'aydın / nəzərəçarpacaq',
+  'əhəmiyyətli / xeyli',
+  'uyğun / münasib',
+  'məsul',
+  'müqayisə edilə bilən',
+  'müstəqil',
+  'mövcud / əlçatan',
+  'təsirlənmiş / aidiyyəti',
+  'ilkin şərt',
+  'tədbir',
+  'inkişaf',
+  'təsir / nəticə',
+  'əlaqə / kontekst',
+  'çətinlik / çağırış',
+  'məsuliyyət',
+  'tənzimləmə / qayda',
+  'məna / əhəmiyyət',
+  'şərt',
+  'bacarıq / qabiliyyət',
+  'təsir',
+  'tələb / hüquq',
+  'nəticə',
+  'məqsəd / təyinat',
+  'təmin etmək / zəmanət vermək',
+  'anlamaq / məntiqini izləmək',
+  'etiraf etmək / vermək',
+  'vurğulamaq',
+  'ölçüb-biçmək',
+  'tabe olmaq / məruz qalmaq',
+  'öncə gəlmək',
+  'aydınlaşdırmaq / göstərmək',
+  'qavramaq / həyata keçirmək',
+  'malik olmaq / göstərmək',
+  'beləliklə / deməli',
+  'bu baxımdan / o dərəcədə ki',
+  'buna əsasən / deməli',
+  'nəticə etibarilə / beləliklə',
+  'böyük ölçüdə',
+  'həlledici / əsas',
+  'əvəzolunmaz / zəruri',
+  'kifayət qədər / yetərli',
+  'davamlı',
+  'müvafiq / tətbiq olunan',
+  'ölçüb-biçmə / balanslaşdırma',
+  'mövcud şərait / vəziyyət',
+  'hal / şərait',
+  'mövqe / fikir',
+  'əhatə dairəsi / əhəmiyyət'
+];
+
 const words = [
 // A1 50
 ['A1','sein','to be','verb'],['A1','haben','to have','verb'],['A1','werden','to become / will','verb'],['A1','können','can / be able to','verb'],['A1','müssen','must / have to','verb'],['A1','machen','to do / make','verb'],['A1','sagen','to say','verb'],['A1','gehen','to go','verb'],['A1','kommen','to come','verb'],['A1','sehen','to see','verb'],['A1','geben','to give','verb'],['A1','wissen','to know','verb'],['A1','finden','to find','verb'],['A1','bleiben','to stay','verb'],['A1','nehmen','to take','verb'],['A1','sprechen','to speak','verb'],['A1','lernen','to learn','verb'],['A1','arbeiten','to work','verb'],['A1','wohnen','to live / reside','verb'],['A1','brauchen','to need','verb'],['A1','ich','I','pronoun'],['A1','du','you','pronoun'],['A1','er','he','pronoun'],['A1','sie','she / they','pronoun'],['A1','wir','we','pronoun'],['A1','das','the / that','article'],['A1','der','the','article'],['A1','die','the','article'],['A1','ein','a / one','article'],['A1','kein','no / not a','article'],['A1','und','and','connector'],['A1','oder','or','connector'],['A1','aber','but','connector'],['A1','auch','also','adverb'],['A1','nicht','not','adverb'],['A1','hier','here','adverb'],['A1','da','there','adverb'],['A1','heute','today','adverb'],['A1','jetzt','now','adverb'],['A1','immer','always','adverb'],['A1','gut','good','adjective'],['A1','groß','big / tall','adjective'],['A1','klein','small','adjective'],['A1','neu','new','adjective'],['A1','alt','old','adjective'],['A1','der Mann','man','noun'],['A1','die Frau','woman','noun'],['A1','das Kind','child','noun'],['A1','die Zeit','time','noun'],['A1','der Tag','day','noun'],
@@ -9,16 +262,40 @@ const words = [
 ['B2','beeinflussen','to influence','verb'],['B2','beurteilen','to assess / judge','verb'],['B2','begründen','to justify','verb'],['B2','behaupten','to claim','verb'],['B2','betrachten','to consider / view','verb'],['B2','berücksichtigen','to take into account','verb'],['B2','darstellen','to present / depict','verb'],['B2','feststellen','to determine / establish','verb'],['B2','fördern','to promote','verb'],['B2','fordern','to demand','verb'],['B2','verfügen','to have at one’s disposal','verb'],['B2','vergleichen','to compare','verb'],['B2','voraussetzen','to require / presuppose','verb'],['B2','widersprechen','to contradict','verb'],['B2','zusammenhängen','to be connected','verb'],['B2','zunehmen','to increase','verb'],['B2','abnehmen','to decrease','verb'],['B2','entstehen','to arise','verb'],['B2','ermöglichen','to enable','verb'],['B2','verhindern','to prevent','verb'],['B2','allerdings','however','connector'],['B2','dennoch','nevertheless','connector'],['B2','hingegen','on the other hand','connector'],['B2','inzwischen','meanwhile','adverb'],['B2','insbesondere','in particular','adverb'],['B2','grundsätzlich','generally / fundamentally','adverb'],['B2','wesentlich','essential / significant','adjective'],['B2','deutlich','clear / significant','adjective'],['B2','erheblich','considerable','adjective'],['B2','angemessen','appropriate','adjective'],['B2','verantwortlich','responsible','adjective'],['B2','vergleichbar','comparable','adjective'],['B2','unabhängig','independent','adjective'],['B2','verfügbar','available','adjective'],['B2','betroffen','affected','adjective'],['B2','die Voraussetzung','prerequisite','noun'],['B2','die Maßnahme','measure','noun'],['B2','die Entwicklung','development','noun'],['B2','die Auswirkung','effect / impact','noun'],['B2','der Zusammenhang','connection / context','noun'],['B2','die Herausforderung','challenge','noun'],['B2','die Verantwortung','responsibility','noun'],['B2','die Regelung','regulation / arrangement','noun'],['B2','die Bedeutung','significance / meaning','noun'],['B2','die Bedingung','condition','noun'],['B2','die Fähigkeit','ability','noun'],['B2','der Einfluss','influence','noun'],['B2','der Anspruch','claim / entitlement','noun'],['B2','die Folge','consequence','noun'],['B2','der Zweck','purpose','noun'],
 // C1 25
 ['C1','gewährleisten','to ensure','verb'],['C1','nachvollziehen','to comprehend / follow','verb'],['C1','einräumen','to concede / grant','verb'],['C1','hervorheben','to emphasize','verb'],['C1','abwägen','to weigh up','verb'],['C1','unterliegen','to be subject to','verb'],['C1','vorausgehen','to precede','verb'],['C1','verdeutlichen','to clarify / illustrate','verb'],['C1','wahrnehmen','to perceive / exercise','verb'],['C1','aufweisen','to exhibit / show','verb'],['C1','mithin','thus / consequently','connector'],['C1','insofern','insofar / in this respect','connector'],['C1','demnach','accordingly','connector'],['C1','folglich','consequently','connector'],['C1','weitgehend','largely','adverb'],['C1','maßgeblich','decisive / significant','adjective'],['C1','unerlässlich','indispensable','adjective'],['C1','hinreichend','sufficient','adjective'],['C1','nachhaltig','sustainable','adjective'],['C1','einschlägig','relevant / applicable','adjective'],['C1','die Abwägung','balancing / weighing','noun'],['C1','die Gegebenheit','circumstance / condition','noun'],['C1','der Umstand','circumstance','noun'],['C1','die Auffassung','view / opinion','noun'],['C1','die Tragweite','scope / significance','noun']
-].map((w,i)=>({id:i+1,level:w[0],de:w[1],en:w[2],type:w[3]}));
+].map((w,i)=>({id:i+1,level:w[0],de:w[1],en:w[2],az:azTranslations[i],type:w[3]}));
 
 const levelCounts={A1:50,A2:50,B1:75,B2:50,C1:25};
 const levelLabels={A1:'Foundation',A2:'Everyday',B1:'Independent',B2:'Advanced',C1:'Proficient'};
 let activeLevel='A1';
+let translationLanguage=localStorage.getItem('deutsch250-language')||'en';
 let progress=JSON.parse(localStorage.getItem('deutsch250-progress')||'{}');
 let currentQuiz=null;
 let quizAnswered=0;
 let quizCorrect=0;
 const $=s=>document.querySelector(s);
+
+
+function meaning(w){ return translationLanguage==='az' ? w.az : w.en; }
+function languageName(){ return translationLanguage==='az' ? 'Azerbaijani' : 'English'; }
+function updateLanguageUI(){
+  document.querySelectorAll('.language-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===translationLanguage));
+  const search=$('#searchInput');
+  if(search) search.placeholder=`Search German or ${languageName()}…`;
+  const heroMeaning=$('#heroMeaning');
+  if(heroMeaning) heroMeaning.textContent=translationLanguage==='az'?'təsir etmək':'to influence';
+  const heroExample=$('#heroExampleTranslation');
+  if(heroExample) heroExample.textContent=translationLanguage==='az'?'Sosial media qərarlarımıza təsir edir.':'Social media influences our decisions.';
+  renderWords();
+  if(currentQuiz) renderCurrentQuizOptions();
+}
+
+$('#languageToggle').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-lang]'); if(!b)return;
+  translationLanguage=b.dataset.lang;
+  localStorage.setItem('deutsch250-language',translationLanguage);
+  updateLanguageUI();
+  showToast(translationLanguage==='az'?'Mənalar Azərbaycan dilində göstərilir.':'Meanings switched to English.');
+});
 
 function save(){
   localStorage.setItem('deutsch250-progress',JSON.stringify(progress));
@@ -64,7 +341,7 @@ $('#levelButtons').addEventListener('click',e=>{
 function renderWords(){
   const q=$('#searchInput').value.trim().toLowerCase(); const sf=$('#statusFilter').value;
   const list=words.filter(w=>{
-    const matchesText=!q || w.de.toLowerCase().includes(q) || w.en.toLowerCase().includes(q);
+    const matchesText=!q || w.de.toLowerCase().includes(q) || w.en.toLowerCase().includes(q) || w.az.toLowerCase().includes(q);
     const matchesLevel=q ? true : w.level===activeLevel;
     return matchesText && matchesLevel && (sf==='all'||state(w.id)===sf);
   });
@@ -77,7 +354,7 @@ function renderWords(){
         <span class="tag">${w.level} · ${w.type}</span>
         <div class="word-top-right"><span class="status-dot ${s}"></span><span class="status-text">${s}</span><button class="speaker-btn" data-speak="${escapeHtml(w.de)}" type="button" aria-label="Listen to ${escapeHtml(w.de)}">♪</button></div>
       </div>
-      <h3>${escapeHtml(w.de)}</h3><p class="meaning">${escapeHtml(w.en)}</p>
+      <h3>${escapeHtml(w.de)}</h3><p class="meaning">${escapeHtml(meaning(w))}</p><small class="meaning-language">${translationLanguage==='az'?'AZƏRBAYCANCA':'ENGLISH'}</small>
       <div class="word-actions">
         <button data-id="${w.id}" data-state="learning" class="${s==='learning'?'active-learning':''}">Learning</button>
         <button data-id="${w.id}" data-state="mastered" class="${s==='mastered'?'active-mastered':''}">Mastered</button>
@@ -106,9 +383,14 @@ function newQuiz(resetRound=false){
   currentQuiz=pool[Math.floor(Math.random()*pool.length)];
   const wrong=pool.filter(w=>w.id!==currentQuiz.id).sort(()=>Math.random()-.5).slice(0,3);
   const opts=[currentQuiz,...wrong].sort(()=>Math.random()-.5);
+  currentQuiz.options=opts;
   $('#quizWord').textContent=currentQuiz.de; $('#quizFeedback').textContent=''; $('#nextQuiz').classList.add('hidden');
   $('#quizCounter').textContent=`Question ${quizAnswered+1} of 10`;
-  $('#quizOptions').innerHTML=opts.map(o=>`<button class="quiz-option" data-id="${o.id}">${escapeHtml(o.en)}</button>`).join('');
+  renderCurrentQuizOptions();
+}
+function renderCurrentQuizOptions(){
+  if(!currentQuiz || !currentQuiz.options)return;
+  $('#quizOptions').innerHTML=currentQuiz.options.map(o=>`<button class="quiz-option" data-id="${o.id}">${escapeHtml(meaning(o))}</button>`).join('');
 }
 function updateQuizScore(){ $('#quizScore').textContent=`${quizCorrect} / ${quizAnswered}`; }
 $('#quizOptions').addEventListener('click',e=>{
@@ -118,7 +400,7 @@ $('#quizOptions').addEventListener('click',e=>{
   document.querySelectorAll('.quiz-option[data-id]').forEach(x=>{if(Number(x.dataset.id)===currentQuiz.id)x.classList.add('correct')});
   if(!ok)b.classList.add('wrong');
   quizAnswered++; if(ok)quizCorrect++; updateQuizScore();
-  $('#quizFeedback').textContent=ok?'Correct — schön! ✓':`Not quite. “${currentQuiz.de}” means “${currentQuiz.en}”.`;
+  $('#quizFeedback').textContent=ok?'Correct — schön! ✓':`Not quite. “${currentQuiz.de}” means “${meaning(currentQuiz)}”.`;
   $('#nextQuiz').textContent=quizAnswered>=10?'See result →':'Next question →'; $('#nextQuiz').classList.remove('hidden');
   if(ok&&state(currentQuiz.id)==='new'){progress[currentQuiz.id]='learning';save();}
 });
@@ -150,4 +432,4 @@ $('#randomWordBtn').addEventListener('click',()=>{
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
-initTheme(); initLevels(); renderWords(); updateDashboard(); newQuiz(true);
+initTheme(); initLevels(); updateLanguageUI(); updateDashboard(); newQuiz(true);

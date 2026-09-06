@@ -20,13 +20,13 @@
       <span>Deutsch<b>250</b></span>
     </a>
     <nav>
-      <a href="#learn">Sözlər</a>
-      <a href="#quiz">Quiz</a>
-      <a href="#progress">Proqres</a>
+      <a href="#learn" id="navWords">Sözlər</a>
+      <a href="#quiz" id="navQuiz">Quiz</a>
+      <a href="#progress" id="navProgress">Proqres</a>
     </nav>
     <div class="language-toggle" id="languageToggle" role="group" aria-label="Translation language">
-      <button type="button" data-lang="en" class="active" aria-label="Show English translations">EN</button>
-      <button type="button" data-lang="az" aria-label="Show Azerbaijani translations">AZ</button>
+      <button type="button" data-lang="en" aria-label="Show English translations">EN</button>
+      <button type="button" data-lang="az" class="active" aria-label="Show Azerbaijani translations">AZ</button>
     </div>
     <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle theme">☾</button>
   </header>
@@ -34,18 +34,18 @@
   <main>
     <section id="home" class="hero shell">
       <div class="hero-copy reveal">
-        <div class="hero-badge"><span class="pulse-dot"></span> 250 vacib söz · A1 → C1</div>
-        <p class="eyebrow">ALMAN DİLİNİ DAHA AĞILLI ÖYRƏN</p>
-        <h1>Həqiqətən <em>işlədəcəyin</em> Alman sözlərini öyrən.</h1>
-        <p class="lead">A1-dən C1-ə qədər 250 vacib Alman sözü. Azərbaycan və İngilis tərcümələri, tələffüz, quiz və proqres izləmə — hamısı bir yerdə.</p>
+        <div class="hero-badge" id="heroBadge"><span class="pulse-dot"></span> 250 vacib söz · A1 → C1</div>
+        <p class="eyebrow" id="heroEyebrow">ALMAN DİLİNİ DAHA AĞILLI ÖYRƏN</p>
+        <h1 id="heroTitle">Həqiqətən <em>işlədəcəyin</em> Alman sözlərini öyrən.</h1>
+        <p class="lead" id="heroLead">A1-dən C1-ə qədər 250 vacib Alman sözü. Azərbaycan və İngilis tərcümələri, tələffüz, quiz və proqres izləmə — hamısı bir yerdə.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="#learn">Öyrənməyə başla <span>→</span></a>
+          <a class="btn primary" href="#learn" id="startLearningBtn">Öyrənməyə başla <span>→</span></a>
           <button class="btn secondary" id="randomWordBtn" type="button">Təsadüfi söz</button>
         </div>
         <div class="trust-row">
-          <div><span class="trust-icon">✓</span><span><b>5 səviyyə</b><small>A1-dən C1-ə</small></span></div>
-          <div><span class="trust-icon">↗</span><span><b>Proqresi izlə</b><small>Brauzerdə saxlanılır</small></span></div>
-          <div><span class="trust-icon">◉</span><span><b>Tələffüz</b><small>Bir kliklə</small></span></div>
+          <div><span class="trust-icon">✓</span><span><b id="trustLevelsTitle">5 səviyyə</b><small id="trustLevelsSub">A1-dən C1-ə</small></span></div>
+          <div><span class="trust-icon">↗</span><span><b id="trustProgressTitle">Proqresi izlə</b><small id="trustProgressSub">Brauzerdə saxlanılır</small></span></div>
+          <div><span class="trust-icon">◉</span><span><b id="trustPronTitle">Tələffüz</b><small id="trustPronSub">Bir kliklə</small></span></div>
         </div>
       </div>
 
@@ -54,25 +54,25 @@
         <div class="float-chip chip-two">C1 · mithin</div>
         <div class="study-card" id="heroStudyCard">
           <div class="study-card-head">
-            <span class="level-pill level-B2">B2 · VERB</span>
+            <span class="level-pill level-B2" id="heroType">B2 · FEL</span>
             <button class="speaker-btn" type="button" data-speak="beeinflussen" aria-label="Listen to beeinflussen">♪</button>
           </div>
-          <div class="word-number">WORD 176</div>
+          <div class="word-number" id="heroWordNumber">SÖZ 176</div>
           <h2>beeinflussen</h2>
           <p class="translation" id="heroMeaning">to influence</p>
           <div class="mini-divider"></div>
           <div class="example-box">
-            <span>Nümunə</span>
+            <span id="heroExampleLabel">Nümunə</span>
             <p>Soziale Medien beeinflussen unsere Entscheidungen.</p>
             <small id="heroExampleTranslation">Social media influences our decisions.</small>
           </div>
           <div class="study-actions">
-            <button class="state-btn">Öyrənilir</button>
-            <button class="state-btn success">Öyrənildi ✓</button>
+            <button class="state-btn" id="heroLearningBtn">Öyrənilir</button>
+            <button class="state-btn success" id="heroMasteredBtn">Öyrənildi ✓</button>
           </div>
         </div>
         <div class="mini-progress-card">
-          <span>Bu səviyyə</span>
+          <span id="heroLevelProgressLabel">Bu səviyyə</span>
           <strong>24%</strong>
           <div class="tiny-bar"><i style="width:24%"></i></div>
         </div>
@@ -82,9 +82,9 @@
     <section id="learn" class="section shell">
       <div class="section-head reveal">
         <div>
-          <p class="eyebrow">SÖZLÜYÜ KƏŞF ET</p>
-          <h2>Səviyyəni seç.</h2>
-          <p class="section-copy">Səviyyə-səviyyə öyrən və ya 250 söz arasında dərhal axtar.</p>
+          <p class="eyebrow" id="learnEyebrow">SÖZLÜYÜ KƏŞF ET</p>
+          <h2 id="learnTitle">Səviyyəni seç.</h2>
+          <p class="section-copy" id="learnCopy">Səviyyə-səviyyə öyrən və ya 250 söz arasında dərhal axtar.</p>
         </div>
         <label class="search-wrap">
           <span>⌕</span>
@@ -97,10 +97,10 @@
       <div class="toolbar">
         <div><strong id="wordCount">0 words</strong><span class="toolbar-note" id="filterHint"> in A1</span></div>
         <select id="statusFilter" aria-label="Filter by learning status">
-          <option value="all">Bütün sözlər</option>
-          <option value="new">Yeni</option>
-          <option value="learning">Öyrənilir</option>
-          <option value="mastered">Öyrənildi</option>
+          <option value="all" id="statusAll">Bütün sözlər</option>
+          <option value="new" id="statusNew">Yeni</option>
+          <option value="learning" id="statusLearning">Öyrənilir</option>
+          <option value="mastered" id="statusMastered">Öyrənildi</option>
         </select>
       </div>
       <div class="word-grid" id="wordGrid"></div>
@@ -109,14 +109,14 @@
     <section id="quiz" class="quiz-section">
       <div class="quiz-shell shell">
         <div class="quiz-intro reveal">
-          <p class="eyebrow light">SÜRƏTLİ MƏŞQ</p>
-          <h2>Sözü yadda saxla.</h2>
-          <p>10 qısa sual. Dərhal nəticəni gör və yeni sözləri praktikada möhkəmləndir.</p>
+          <p class="eyebrow light" id="quizEyebrow">SÜRƏTLİ MƏŞQ</p>
+          <h2 id="quizTitle">Sözü yadda saxla.</h2>
+          <p id="quizCopy">10 qısa sual. Dərhal nəticəni gör və yeni sözləri praktikada möhkəmləndir.</p>
           <div class="quiz-meta">
-            <label>Səviyyə
+            <label><span id="quizLevelLabel">Səviyyə</span>
               <select id="quizLevel"></select>
             </label>
-            <div class="score-box"><span>Nəticə</span><strong id="quizScore">0 / 0</strong></div>
+            <div class="score-box"><span id="quizScoreLabel">Nəticə</span><strong id="quizScore">0 / 0</strong></div>
           </div>
         </div>
 
@@ -125,7 +125,7 @@
             <span id="quizCounter">Question 1</span>
             <button class="speaker-btn dark" id="quizSpeak" type="button" aria-label="Listen to quiz word">♪</button>
           </div>
-          <p class="quiz-label">Bu söz nə deməkdir?</p>
+          <p class="quiz-label" id="quizPrompt">Bu söz nə deməkdir?</p>
           <h3 id="quizWord">—</h3>
           <div id="quizOptions" class="quiz-options"></div>
           <div id="quizFeedback" class="quiz-feedback"></div>
@@ -137,9 +137,9 @@
     <section id="progress" class="section shell progress-section">
       <div class="section-head reveal">
         <div>
-          <p class="eyebrow">SƏNİN PROQRESİN</p>
-          <h2>Kiçik addımlar böyük nəticə verir.</h2>
-          <p class="section-copy">Sözləri “Öyrənilir” və ya “Öyrənildi” kimi qeyd et və irəliləyişini izlə.</p>
+          <p class="eyebrow" id="progressEyebrow">SƏNİN PROQRESİN</p>
+          <h2 id="progressTitle">Kiçik addımlar böyük nəticə verir.</h2>
+          <p class="section-copy" id="progressCopy">Sözləri “Öyrənilir” və ya “Öyrənildi” kimi qeyd et və irəliləyişini izlə.</p>
         </div>
         <button id="resetProgress" class="btn subtle-danger" type="button">Proqresi sıfırla</button>
       </div>
@@ -148,21 +148,21 @@
         <div class="overall-card reveal">
           <div class="ring" id="overallRing"><span id="overallPercent">0%</span></div>
           <div>
-            <span class="small-label">ÜMUMİ PROQRES</span>
+            <span class="small-label" id="overallProgressLabel">ÜMUMİ PROQRES</span>
             <h3 id="masteryMessage">Sənin öyrənmə yolun buradan başlayır.</h3>
-            <p>Sözləri addım-addım öyrən. Proqresin bu brauzerdə saxlanılır.</p>
+            <p id="progressDescription">Sözləri addım-addım öyrən. Proqresin bu brauzerdə saxlanılır.</p>
           </div>
         </div>
 
         <div class="progress-cards reveal">
-          <div class="progress-card mastered-card"><span>Öyrənildi</span><strong id="masteredCount">0</strong><small>söz tamamlandı</small></div>
-          <div class="progress-card learning-card"><span>Öyrənilir</span><strong id="learningCount">0</strong><small>öyrənmə siyahısında</small></div>
-          <div class="progress-card new-card"><span>Yeni</span><strong id="newCount">250</strong><small>öyrənilməyi gözləyir</small></div>
+          <div class="progress-card mastered-card"><span id="masteredLabel">Öyrənildi</span><strong id="masteredCount">0</strong><small id="masteredSub">söz tamamlandı</small></div>
+          <div class="progress-card learning-card"><span id="learningLabel">Öyrənilir</span><strong id="learningCount">0</strong><small id="learningSub">öyrənmə siyahısında</small></div>
+          <div class="progress-card new-card"><span id="newLabel">Yeni</span><strong id="newCount">250</strong><small id="newSub">öyrənilməyi gözləyir</small></div>
         </div>
       </div>
 
       <div class="level-progress-panel reveal">
-        <div class="panel-head"><strong>Səviyyələr üzrə proqres</strong><span>Öyrənilmiş sözlər</span></div>
+        <div class="panel-head"><strong id="levelsProgressTitle">Səviyyələr üzrə proqres</strong><span id="levelsProgressSub">Öyrənilmiş sözlər</span></div>
         <div id="progressBars" class="progress-bars"></div>
       </div>
     </section>
@@ -170,12 +170,12 @@
 
   <footer>
     <div class="shell footer-inner">
-      <div><a class="brand footer-brand" href="#home"><span class="brand-mark">D</span><span>Deutsch<b>250</b></span></a><p>Alman dili üçün məqsədli söz bazası.</p></div>
-      <div class="footer-note">Sadə və sürətli · Hesab tələb olunmur</div>
+      <div><a class="brand footer-brand" href="#home"><span class="brand-mark">D</span><span>Deutsch<b>250</b></span></a><p id="footerDescription">Alman dili üçün məqsədli söz bazası.</p></div>
+      <div class="footer-note" id="footerNote">Sadə və sürətli · Hesab tələb olunmur</div>
     </div>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=8"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>

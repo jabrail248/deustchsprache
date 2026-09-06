@@ -1,4 +1,2 @@
-Deutsch250 v8
-
-Fixed EN/AZ translation toggle.
-Upload index.html, app.js and styles.css to the GitHub repository root.
+Deutsch250 v11 — full EN/AZ interface toggle.
+Upload index.html, styles.css and app.js to the repository root.

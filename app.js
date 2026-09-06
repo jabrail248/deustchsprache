@@ -265,7 +265,6 @@ const words = [
 ].map((w,i)=>({id:i+1,level:w[0],de:w[1],en:w[2],az:azTranslations[i],type:w[3]}));
 
 const levelCounts={A1:50,A2:50,B1:75,B2:50,C1:25};
-const levelLabels={A1:'Təməl',A2:'Gündəlik',B1:'Müstəqil',B2:'Yuxarı',C1:'İrəli'};
 let activeLevel='A1';
 function safeGet(key, fallback=''){
   try {
@@ -288,18 +287,96 @@ let quizCorrect=0;
 const $=s=>document.querySelector(s);
 
 
+const uiText = {
+  az: {
+    navWords:'Sözlər', navQuiz:'Quiz', navProgress:'Proqres',
+    heroBadge:'250 vacib söz · A1 → C1', heroEyebrow:'ALMAN DİLİNİ DAHA AĞILLI ÖYRƏN',
+    heroTitle:'Həqiqətən <em>işlədəcəyin</em> Alman sözlərini öyrən.',
+    heroLead:'A1-dən C1-ə qədər 250 vacib Alman sözü. Azərbaycan və İngilis tərcümələri, tələffüz, quiz və proqres izləmə — hamısı bir yerdə.',
+    startLearning:'Öyrənməyə başla <span>→</span>', randomWord:'Təsadüfi söz',
+    trustLevelsTitle:'5 səviyyə', trustLevelsSub:'A1-dən C1-ə', trustProgressTitle:'Proqresi izlə', trustProgressSub:'Brauzerdə saxlanılır', trustPronTitle:'Tələffüz', trustPronSub:'Bir kliklə',
+    heroType:'B2 · FEL', heroWordNumber:'SÖZ 176', example:'Nümunə', learning:'Öyrənilir', mastered:'Öyrənildi', new:'Yeni', thisLevel:'Bu səviyyə',
+    learnEyebrow:'SÖZLÜYÜ KƏŞF ET', learnTitle:'Səviyyəni seç.', learnCopy:'Səviyyə-səviyyə öyrən və ya 250 söz arasında dərhal axtar.',
+    searchPlaceholder:'Almanca və ya Azərbaycan dilində axtar…', allWords:'Bütün sözlər',
+    quizEyebrow:'SÜRƏTLİ MƏŞQ', quizTitle:'Sözü yadda saxla.', quizCopy:'10 qısa sual. Dərhal nəticəni gör və yeni sözləri praktikada möhkəmləndir.', quizLevel:'Səviyyə', quizScore:'Nəticə', quizPrompt:'Bu söz nə deməkdir?', nextQuestion:'Növbəti sual →', seeResult:'Nəticəyə bax →',
+    progressEyebrow:'SƏNİN PROQRESİN', progressTitle:'Kiçik addımlar böyük nəticə verir.', progressCopy:'Sözləri “Öyrənilir” və ya “Öyrənildi” kimi qeyd et və irəliləyişini izlə.', resetProgress:'Proqresi sıfırla', overallProgress:'ÜMUMİ PROQRES',
+    progressDescription:'Sözləri addım-addım öyrən. Proqresin bu brauzerdə saxlanılır.', masteredSub:'söz tamamlandı', learningSub:'öyrənmə siyahısında', newSub:'öyrənilməyi gözləyir', levelsProgressTitle:'Səviyyələr üzrə proqres', levelsProgressSub:'Öyrənilmiş sözlər',
+    footerDescription:'Alman dili üçün məqsədli söz bazası.', footerNote:'Sadə və sürətli · Hesab tələb olunmur',
+    noWords:'Söz tapılmadı.', tryAnother:'Başqa axtarış və ya filtr sına.', allLevels:'bütün səviyyələrdə', words:'söz',
+    question:'Sual', quizComplete:'Quiz tamamlandı!', restart:'Yenidən başla', questionsComplete:'10 sual tamamlandı',
+    correct:'Doğrudur ✓', incorrectPrefix:'Yanlışdır.', means:'deməkdir.',
+    startMsg:'Sənin öyrənmə yolun buradan başlayır.', goodStart:'Yaxşı başlanğıcdır.', greatProgress:'Əla irəliləyiş — davam et.', almostThere:'Məqsədə çox yaxınsan.', allLearned:'250 sözün hamısını öyrəndin!',
+    resetConfirm:'Bütün öyrənmə proqresini sıfırlamaq istəyirsən?', resetDone:'Proqres sıfırlandı.',
+    learnedToast:'Söz öyrənildi ✓', learningToast:'Öyrənmə siyahısına əlavə edildi', newToast:'Yeni sözlərə qaytarıldı', speechUnsupported:'Bu brauzerdə tələffüz dəstəklənmir.',
+    langToast:'Tərcümələr Azərbaycan dilində göstərilir.'
+  },
+  en: {
+    navWords:'Words', navQuiz:'Quiz', navProgress:'Progress',
+    heroBadge:'250 essential words · A1 → C1', heroEyebrow:'LEARN GERMAN SMARTER',
+    heroTitle:'Learn the German words you will <em>actually use</em>.',
+    heroLead:'250 essential German words from A1 to C1. English and Azerbaijani translations, pronunciation, quizzes and progress tracking — all in one place.',
+    startLearning:'Start learning <span>→</span>', randomWord:'Random word',
+    trustLevelsTitle:'5 levels', trustLevelsSub:'A1 to C1', trustProgressTitle:'Track progress', trustProgressSub:'Saved in your browser', trustPronTitle:'Pronunciation', trustPronSub:'One click',
+    heroType:'B2 · VERB', heroWordNumber:'WORD 176', example:'Example', learning:'Learning', mastered:'Mastered', new:'New', thisLevel:'This level',
+    learnEyebrow:'EXPLORE THE VOCABULARY', learnTitle:'Choose your level.', learnCopy:'Learn level by level or search instantly across all 250 words.',
+    searchPlaceholder:'Search in German or English…', allWords:'All words',
+    quizEyebrow:'QUICK PRACTICE', quizTitle:'Make the word stick.', quizCopy:'10 quick questions. Get instant feedback and reinforce new vocabulary.', quizLevel:'Level', quizScore:'Score', quizPrompt:'What does this word mean?', nextQuestion:'Next question →', seeResult:'See results →',
+    progressEyebrow:'YOUR PROGRESS', progressTitle:'Small steps create big results.', progressCopy:'Mark words as “Learning” or “Mastered” and track your progress.', resetProgress:'Reset progress', overallProgress:'OVERALL PROGRESS',
+    progressDescription:'Learn words step by step. Your progress is saved in this browser.', masteredSub:'words completed', learningSub:'in your queue', newSub:'waiting for you', levelsProgressTitle:'Progress by level', levelsProgressSub:'Mastered words',
+    footerDescription:'A focused German vocabulary base.', footerNote:'Simple and fast · No account required',
+    noWords:'No words found.', tryAnother:'Try another search or filter.', allLevels:'across all levels', words:'words',
+    question:'Question', quizComplete:'Quiz complete!', restart:'Restart quiz', questionsComplete:'10 questions complete',
+    correct:'Correct ✓', incorrectPrefix:'Not quite.', means:'means',
+    startMsg:'Your learning journey starts here.', goodStart:'A good start.', greatProgress:'Great progress — keep going.', almostThere:'You are very close to the goal.', allLearned:'You mastered all 250 words!',
+    resetConfirm:'Reset all learning progress?', resetDone:'Progress reset.',
+    learnedToast:'Word mastered ✓', learningToast:'Added to your learning queue', newToast:'Moved back to new words', speechUnsupported:'Pronunciation is not supported in this browser.',
+    langToast:'Translations are shown in English.'
+  }
+};
+const levelLabelsByLang={
+  az:{A1:'Təməl',A2:'Gündəlik',B1:'Müstəqil',B2:'Yuxarı',C1:'İrəli'},
+  en:{A1:'Foundation',A2:'Everyday',B1:'Independent',B2:'Upper',C1:'Advanced'}
+};
+const typeLabels={
+  az:{verb:'fel',pronoun:'əvəzlik',article:'artikl',connector:'bağlayıcı',adverb:'zərf',adjective:'sifət',noun:'isim'},
+  en:{verb:'verb',pronoun:'pronoun',article:'article',connector:'connector',adverb:'adverb',adjective:'adjective',noun:'noun'}
+};
+function t(key){ return uiText[translationLanguage][key]; }
 function meaning(w){ return translationLanguage==='az' ? w.az : w.en; }
-function languageName(){ return translationLanguage==='az' ? 'Azərbaycan dili' : 'İngilis dili'; }
-function updateLanguageUI(){
+function setText(id,value,html=false){ const el=$(id); if(el) html?el.innerHTML=value:el.textContent=value; }
+function updateStaticLanguageUI(){
+  document.documentElement.lang=translationLanguage;
+  document.title=translationLanguage==='az'?'Deutsch250 — Alman dilində 250 vacib söz':'Deutsch250 — 250 Essential German Words';
   document.querySelectorAll('.language-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===translationLanguage));
-  const search=$('#searchInput');
-  if(search) search.placeholder=`Almanca və ya ${languageName()} üzrə axtar…`;
-  const heroMeaning=$('#heroMeaning');
-  if(heroMeaning) heroMeaning.textContent=translationLanguage==='az'?'təsir etmək':'to influence';
-  const heroExample=$('#heroExampleTranslation');
-  if(heroExample) heroExample.textContent=translationLanguage==='az'?'Sosial media qərarlarımıza təsir edir.':'Social media influences our decisions.';
+  const pairs={
+    '#navWords':'navWords','#navQuiz':'navQuiz','#navProgress':'navProgress','#heroBadge':'heroBadge','#heroEyebrow':'heroEyebrow','#heroLead':'heroLead','#randomWordBtn':'randomWord',
+    '#trustLevelsTitle':'trustLevelsTitle','#trustLevelsSub':'trustLevelsSub','#trustProgressTitle':'trustProgressTitle','#trustProgressSub':'trustProgressSub','#trustPronTitle':'trustPronTitle','#trustPronSub':'trustPronSub',
+    '#heroType':'heroType','#heroWordNumber':'heroWordNumber','#heroExampleLabel':'example','#heroLearningBtn':'learning','#heroMasteredBtn':'mastered','#heroLevelProgressLabel':'thisLevel',
+    '#learnEyebrow':'learnEyebrow','#learnTitle':'learnTitle','#learnCopy':'learnCopy','#statusAll':'allWords','#statusNew':'new','#statusLearning':'learning','#statusMastered':'mastered',
+    '#quizEyebrow':'quizEyebrow','#quizTitle':'quizTitle','#quizCopy':'quizCopy','#quizLevelLabel':'quizLevel','#quizScoreLabel':'quizScore','#quizPrompt':'quizPrompt',
+    '#progressEyebrow':'progressEyebrow','#progressTitle':'progressTitle','#progressCopy':'progressCopy','#resetProgress':'resetProgress','#overallProgressLabel':'overallProgress','#progressDescription':'progressDescription',
+    '#masteredLabel':'mastered','#masteredSub':'masteredSub','#learningLabel':'learning','#learningSub':'learningSub','#newLabel':'new','#newSub':'newSub','#levelsProgressTitle':'levelsProgressTitle','#levelsProgressSub':'levelsProgressSub',
+    '#footerDescription':'footerDescription','#footerNote':'footerNote'
+  };
+  Object.entries(pairs).forEach(([id,key])=>setText(id,t(key)));
+  setText('#heroTitle',t('heroTitle'),true);
+  setText('#startLearningBtn',t('startLearning'),true);
+  setText('#heroMasteredBtn',t('mastered')+' ✓');
+  const search=$('#searchInput'); if(search) search.placeholder=t('searchPlaceholder');
+  setText('#heroMeaning',translationLanguage==='az'?'təsir etmək':'to influence');
+  setText('#heroExampleTranslation',translationLanguage==='az'?'Sosial media qərarlarımıza təsir edir.':'Social media influences our decisions.');
+}
+function updateLanguageUI(){
+  updateStaticLanguageUI();
+  initLevels();
   renderWords();
-  if(currentQuiz) renderCurrentQuizOptions();
+  updateDashboard();
+  if(currentQuiz){
+    setText('#quizPrompt',t('quizPrompt'));
+    setText('#quizCounter',`${t('question')} ${Math.min(quizAnswered+1,10)} / 10`);
+    setText('#nextQuiz',quizAnswered>=10?t('seeResult'):t('nextQuestion'));
+    renderCurrentQuizOptions();
+  }
 }
 
 $('#languageToggle').addEventListener('click',e=>{
@@ -308,9 +385,9 @@ $('#languageToggle').addEventListener('click',e=>{
   const nextLanguage=b.dataset.lang;
   if(!['az','en'].includes(nextLanguage))return;
   translationLanguage=nextLanguage;
-  updateLanguageUI();
   safeSet('deutsch250-language',translationLanguage);
-  showToast(translationLanguage==='az'?'Mənalar Azərbaycan dilində göstərilir.':'Meanings are shown in English.');
+  updateLanguageUI();
+  showToast(t('langToast'));
 });
 
 function save(){
@@ -320,14 +397,14 @@ function save(){
 function state(id){return progress[id]||'new'}
 function setState(id,val){
   if(state(id)===val) delete progress[id]; else progress[id]=val;
-  save(); renderWords(); showToast(val==='mastered'?'Söz öyrənildi ✓':val==='learning'?'Öyrənmə siyahısına əlavə edildi':'Yeni sözlərə qaytarıldı');
+  save(); renderWords(); showToast(val==='mastered'?t('learnedToast'):val==='learning'?t('learningToast'):t('newToast'));
 }
 function showToast(message){
   const toast=$('#toast'); toast.textContent=message; toast.classList.add('show');
   clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>toast.classList.remove('show'),1800);
 }
 function speak(text){
-  if(!('speechSynthesis' in window)){showToast('Bu brauzerdə tələffüz dəstəklənmir.');return;}
+  if(!('speechSynthesis' in window)){showToast(t('speechUnsupported'));return;}
   speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='de-DE'; u.rate=.88; speechSynthesis.speak(u);
 }
 
@@ -344,9 +421,9 @@ $('#themeToggle').addEventListener('click',()=>{
 
 function initLevels(){
   const wrap=$('#levelButtons');
-  wrap.innerHTML=Object.entries(levelCounts).map(([l,c])=>`<button class="level-btn ${l===activeLevel?'active':''}" data-level="${l}"><b>${l}</b><span>${c} söz</span><small>${levelLabels[l]}</small></button>`).join('');
+  wrap.innerHTML=Object.entries(levelCounts).map(([l,c])=>`<button class="level-btn ${l===activeLevel?'active':''}" data-level="${l}"><b>${l}</b><span>${c} ${t('words')}</span><small>${levelLabelsByLang[translationLanguage][l]}</small></button>`).join('');
   const q=$('#quizLevel');
-  q.innerHTML=Object.keys(levelCounts).map(l=>`<option value="${l}">${l} · ${levelCounts[l]} söz</option>`).join('');
+  q.innerHTML=Object.keys(levelCounts).map(l=>`<option value="${l}">${l} · ${levelCounts[l]} ${t('words')}</option>`).join('');
   q.value=activeLevel;
 }
 $('#levelButtons').addEventListener('click',e=>{
@@ -361,13 +438,13 @@ function renderWords(){
     const matchesLevel=q ? true : w.level===activeLevel;
     return matchesText && matchesLevel && (sf==='all'||state(w.id)===sf);
   });
-  $('#wordCount').textContent=`${list.length} söz`;
-  $('#filterHint').textContent=q?' · bütün səviyyələrdə':` · ${activeLevel}`;
+  $('#wordCount').textContent=`${list.length} ${t('words')}`;
+  $('#filterHint').textContent=q?` · ${t('allLevels')}`:` · ${activeLevel}`;
   $('#wordGrid').innerHTML=list.length?list.map(w=>{
     const s=state(w.id);
     return `<article class="word-card" data-level="${w.level}">
       <div class="word-top">
-        <span class="tag">${w.level} · ${w.type}</span>
+        <span class="tag">${w.level} · ${typeLabels[translationLanguage][w.type]||w.type}</span>
         <div class="word-top-right"><span class="status-dot ${s}"></span><span class="status-text">${translationLanguage==='az'?({new:'yeni',learning:'öyrənilir',mastered:'öyrənildi'}[s]):s}</span><button class="speaker-btn" data-speak="${escapeHtml(w.de)}" type="button" aria-label="Listen to ${escapeHtml(w.de)}">♪</button></div>
       </div>
       <h3>${escapeHtml(w.de)}</h3><p class="meaning">${escapeHtml(meaning(w))}</p>
@@ -376,7 +453,7 @@ function renderWords(){
         <button data-id="${w.id}" data-state="mastered" class="${s==='mastered'?'active-mastered':''}">${translationLanguage==='az'?'Öyrənildi':'Mastered'}</button>
       </div>
     </article>`;
-  }).join(''):'<div class="empty-state"><strong>Söz tapılmadı.</strong><br>Başqa axtarış və ya filtr sına.</div>';
+  }).join(''):`<div class="empty-state"><strong>${t('noWords')}</strong><br>${t('tryAnother')}</div>`;
 }
 function escapeHtml(v){return String(v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 $('#wordGrid').addEventListener('click',e=>{
@@ -390,10 +467,10 @@ document.addEventListener('click',e=>{const s=e.target.closest('[data-speak]');i
 function newQuiz(resetRound=false){
   if(resetRound){quizAnswered=0;quizCorrect=0;updateQuizScore();}
   if(quizAnswered>=10){
-    $('#quizWord').textContent='Quiz tamamlandı!';
-    $('#quizOptions').innerHTML=`<button class="quiz-option" id="restartQuiz">Yenidən başla</button>`;
-    $('#quizFeedback').textContent=`10 sualdan ${quizCorrect} düzgün cavab verdin.`;
-    $('#quizCounter').textContent='10 sual tamamlandı'; $('#nextQuiz').classList.add('hidden'); return;
+    $('#quizWord').textContent=t('quizComplete');
+    $('#quizOptions').innerHTML=`<button class="quiz-option" id="restartQuiz">${t('restart')}</button>`;
+    $('#quizFeedback').textContent=translationLanguage==='az'?`10 sualdan ${quizCorrect} düzgün cavab verdin.`:`You answered ${quizCorrect} of 10 questions correctly.`;
+    $('#quizCounter').textContent=t('questionsComplete'); $('#nextQuiz').classList.add('hidden'); return;
   }
   const lvl=$('#quizLevel').value||'A1'; const pool=words.filter(w=>w.level===lvl);
   currentQuiz=pool[Math.floor(Math.random()*pool.length)];
@@ -401,7 +478,7 @@ function newQuiz(resetRound=false){
   const opts=[currentQuiz,...wrong].sort(()=>Math.random()-.5);
   currentQuiz.options=opts;
   $('#quizWord').textContent=currentQuiz.de; $('#quizFeedback').textContent=''; $('#nextQuiz').classList.add('hidden');
-  $('#quizCounter').textContent=`Sual ${quizAnswered+1} / 10`;
+  $('#quizCounter').textContent=`${t('question')} ${quizAnswered+1} / 10`;
   renderCurrentQuizOptions();
 }
 function renderCurrentQuizOptions(){
@@ -417,7 +494,7 @@ $('#quizOptions').addEventListener('click',e=>{
   if(!ok)b.classList.add('wrong');
   quizAnswered++; if(ok)quizCorrect++; updateQuizScore();
   $('#quizFeedback').textContent=ok?(translationLanguage==='az'?'Doğrudur ✓':'Correct ✓'):(translationLanguage==='az'?`Yanlışdır. “${currentQuiz.de}” “${meaning(currentQuiz)}” deməkdir.`:`Not quite. “${currentQuiz.de}” means “${meaning(currentQuiz)}”.`);
-  $('#nextQuiz').textContent=quizAnswered>=10?'Nəticəyə bax →':'Növbəti sual →'; $('#nextQuiz').classList.remove('hidden');
+  $('#nextQuiz').textContent=quizAnswered>=10?t('seeResult'):t('nextQuestion'); $('#nextQuiz').classList.remove('hidden');
   if(ok&&state(currentQuiz.id)==='new'){progress[currentQuiz.id]='learning';save();}
 });
 $('#nextQuiz').addEventListener('click',()=>newQuiz(false));
@@ -430,14 +507,14 @@ function updateDashboard(){
   const pct=Math.round(mastered/words.length*100);
   $('#masteredCount').textContent=mastered; $('#learningCount').textContent=learning; $('#newCount').textContent=words.length-mastered-learning; $('#overallPercent').textContent=`${pct}%`;
   $('#overallRing').style.setProperty('--p',`${pct*3.6}deg`);
-  $('#masteryMessage').textContent=pct===0?'Sənin öyrənmə yolun buradan başlayır.':pct<25?'Yaxşı başlanğıcdır.':pct<60?'Əla irəliləyiş — davam et.':pct<100?'Məqsədə çox yaxınsan.':'250 sözün hamısını öyrəndin!';
+  $('#masteryMessage').textContent=pct===0?t('startMsg'):pct<25?t('goodStart'):pct<60?t('greatProgress'):pct<100?t('almostThere'):t('allLearned');
   $('#progressBars').innerHTML=Object.keys(levelCounts).map(l=>{
     const ws=words.filter(w=>w.level===l); const m=ws.filter(w=>state(w.id)==='mastered').length; const p=Math.round(m/ws.length*100);
     return `<div class="bar-row"><b>${l}</b><div class="bar"><div style="width:${p}%"></div></div><span>${m}/${ws.length}</span></div>`;
   }).join('');
 }
 $('#resetProgress').addEventListener('click',()=>{
-  if(confirm('Bütün öyrənmə proqresini sıfırlamaq istəyirsən?')){progress={};save();renderWords();showToast('Proqres sıfırlandı.');}
+  if(confirm(t('resetConfirm'))){progress={};save();renderWords();showToast(t('resetDone'));}
 });
 
 $('#randomWordBtn').addEventListener('click',()=>{
@@ -448,4 +525,4 @@ $('#randomWordBtn').addEventListener('click',()=>{
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
-initTheme(); initLevels(); updateLanguageUI(); updateDashboard(); newQuiz(true);
+initTheme(); updateLanguageUI(); newQuiz(true);

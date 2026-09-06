@@ -352,12 +352,12 @@ function renderWords(){
     return `<article class="word-card" data-level="${w.level}">
       <div class="word-top">
         <span class="tag">${w.level} · ${w.type}</span>
-        <div class="word-top-right"><span class="status-dot ${s}"></span><span class="status-text">${s}</span><button class="speaker-btn" data-speak="${escapeHtml(w.de)}" type="button" aria-label="Listen to ${escapeHtml(w.de)}">♪</button></div>
+        <div class="word-top-right"><span class="status-dot ${s}"></span><span class="status-text">${translationLang==='az'?({new:'yeni',learning:'öyrənilir',mastered:'öyrənildi'}[s]):s}</span><button class="speaker-btn" data-speak="${escapeHtml(w.de)}" type="button" aria-label="Listen to ${escapeHtml(w.de)}">♪</button></div>
       </div>
-      <h3>${escapeHtml(w.de)}</h3><p class="meaning">${escapeHtml(meaning(w))}</p><small class="meaning-language">${translationLanguage==='az'?'AZƏRBAYCANCA':'ENGLISH'}</small>
+      <h3>${escapeHtml(w.de)}</h3><p class="meaning">${escapeHtml(meaning(w))}</p>
       <div class="word-actions">
-        <button data-id="${w.id}" data-state="learning" class="${s==='learning'?'active-learning':''}">Learning</button>
-        <button data-id="${w.id}" data-state="mastered" class="${s==='mastered'?'active-mastered':''}">Mastered</button>
+        <button data-id="${w.id}" data-state="learning" class="${s==='learning'?'active-learning':''}">${translationLang==='az'?'Öyrənilir':'Learning'}</button>
+        <button data-id="${w.id}" data-state="mastered" class="${s==='mastered'?'active-mastered':''}">${translationLang==='az'?'Öyrənildi':'Mastered'}</button>
       </div>
     </article>`;
   }).join(''):'<div class="empty-state"><strong>No words found.</strong><br>Try another search or filter.</div>';
@@ -400,7 +400,7 @@ $('#quizOptions').addEventListener('click',e=>{
   document.querySelectorAll('.quiz-option[data-id]').forEach(x=>{if(Number(x.dataset.id)===currentQuiz.id)x.classList.add('correct')});
   if(!ok)b.classList.add('wrong');
   quizAnswered++; if(ok)quizCorrect++; updateQuizScore();
-  $('#quizFeedback').textContent=ok?'Correct — schön! ✓':`Not quite. “${currentQuiz.de}” means “${meaning(currentQuiz)}”.`;
+  $('#quizFeedback').textContent=ok?(translationLang==='az'?'Doğrudur ✓':'Correct ✓'):(translationLang==='az'?`Yanlışdır. “${currentQuiz.de}” “${meaning(currentQuiz)}” deməkdir.`:`Not quite. “${currentQuiz.de}” means “${meaning(currentQuiz)}”.`);
   $('#nextQuiz').textContent=quizAnswered>=10?'See result →':'Next question →'; $('#nextQuiz').classList.remove('hidden');
   if(ok&&state(currentQuiz.id)==='new'){progress[currentQuiz.id]='learning';save();}
 });

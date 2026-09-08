@@ -1,6 +1,15 @@
-Deutsch250 — version 13
+Deutsch250 — version 14
 
-WHAT IS NEW
+WHAT IS NEW IN VERSION 14
+- Ten original A2-B1 stories, each 150-165 words, with three comprehension questions.
+- Tap any word in the story text for Azerbaijani/English translation.
+- The popup shows the dictionary form, noun plural and irregular verb forms where relevant.
+- The popup prefers a position above the word and moves below if there is insufficient room. Close it with its close button, Escape, or a tap outside.
+- Add words to the existing review queue; previously saved word progress is preserved.
+- Sentence-by-sentence story audio and a stop button use browser speech synthesis.
+- Fixed the English label “1 day”.
+
+VERSION 13 FEATURES
 - Two German example sentences for each of the 250 words, translated into Azerbaijani and English. Related words sometimes share contextual examples.
 - A Review today section with hidden answers and Again / Hard / Good / Easy ratings.
 - 30 practical phrases, six per level from A1 to C1, with translations, an example and an Add to review button. Levels are approximate teaching guides.
@@ -11,11 +20,11 @@ UPDATE YOUR EXISTING SITE
 1. Extract this ZIP.
 2. Open your jabrail248/deustchsprache repository on GitHub.
 3. Choose Add file > Upload files.
-4. Upload all eight files from this folder into the repository root, replacing existing files with the same names. Do not upload only the ZIP or put the files inside an extra folder.
+4. Upload all ten files from this folder into the repository root, replacing existing files with the same names. Do not upload only the ZIP or put the files inside an extra folder.
 5. Commit the changes. Your existing GitHub Pages configuration will publish them.
 6. Refresh the website. If you see the previous version, press Ctrl+F5.
 
-Files: index.html, styles.css, app.js, examples.js, phrases.js, review.js, features.js, README.txt.
+Files: index.html, styles.css, app.js, examples.js, phrases.js, review.js, features.js, stories-data.js, stories.js, README.txt.
 No API key, paid AI service, build step or new package is required.
 
 REVIEW BEHAVIOUR
@@ -35,4 +44,4 @@ PROGRESS STORAGE
 Progress is saved only in this browser on this website address. Keep the same GitHub Pages address to retain existing progress. Clearing browser data removes it. A ZIP opened locally or another device will not share that progress. A notice is shown if saving is blocked. No accounts or cloud synchronization are included.
 
 VALIDATION
-Checked JavaScript syntax, all 250 example mappings and translations, all 30 phrase records, local asset references, scheduler intervals, saved-progress migration/reload, blocked/corrupt storage, review and enrollment click handlers, AZ/EN switching, quiz rescore prevention and reset. HTML interaction checks used a DOM environment. Visual browser testing and live deployment were not performed.
+Checked JavaScript syntax, all 250 example mappings and translations, all 30 phrase records, local asset references, scheduler intervals, saved-progress migration/reload, blocked/corrupt storage, review and enrollment click handlers, AZ/EN switching, quiz rescore prevention and reset. HTML interaction checks used a DOM environment. Additional v14 checks cover every story token, dictionary coverage, text reconstruction, noun/verb distinctions, separable verb forms, story lengths, question counts, application startup and saved story vocabulary. Popup positioning and visual layout have not been tested in a real browser. Live deployment was not performed.

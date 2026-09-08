@@ -5,7 +5,7 @@ const featureText = {
 let reviewData = {}, reviewSession = [], reviewIndex = 0, reviewRevealed = false, reviewStarted = false, reviewStorageOK = true;
 function ft(key){return featureText[translationLanguage][key];}
 function itemKey(item){return typeof item.id === 'number' ? 'word-'+item.id : item.id;}
-function allStudyItems(){return [...words,...phrases];}
+function allStudyItems(){return [...words,...phrases,...storyStudyItems];}
 function examplesFor(item){return item.examples || wordExamples[item.id] || [];}
 function examplesHTML(item,collapsible=true){
  const examples=examplesFor(item);
@@ -21,7 +21,7 @@ function syncWordReview(id){
  else if(!reviewData[key]) reviewData[key]={due:Date.now(),interval:0,reviews:0};
  saveReviews();renderReview();
 }
-function reviewPool(){const level=$('#reviewLevel').value;return allStudyItems().filter(item=>level==='all'||item.level===level);}
+function reviewPool(){const level=$('#reviewLevel').value;return allStudyItems().filter(item=>(level==='all'||item.level===level)&&(!item.sourceStory||reviewData[itemKey(item)]));}
 function reviewSummary(){
  const now=Date.now(),pool=reviewPool();
  const due=pool.filter(item=>reviewData[itemKey(item)]?.due<=now).sort((a,b)=>reviewData[itemKey(a)].due-reviewData[itemKey(b)].due);
@@ -30,7 +30,7 @@ function reviewSummary(){
  return {due,fresh,next:future.length?Math.min(...future):null};
 }
 function dateLabel(ms){return new Intl.DateTimeFormat(translationLanguage==='az'?'az-AZ':'en-GB',{dateStyle:'medium',timeStyle:'short'}).format(ms);}
-function intervalLabel(days){return days<1?`${Math.round(days*1440)} ${ft('minutes')}`:`${days} ${ft('days')}`;}
+function intervalLabel(days){return days<1?`${Math.round(days*1440)} ${ft('minutes')}`:`${days} ${translationLanguage==='en'&&days===1?'day':ft('days')}`;}
 function renderReview(){
  if(!$('#reviewStats'))return;
  const summary=reviewSummary();
@@ -42,7 +42,7 @@ function renderReview(){
  $('#reviewCard').innerHTML=`<h3>${heading}</h3>${reviewStarted?`<p>${reviewIndex} ${ft('reviewed')}</p>`:''}<p>${summary.due.length||summary.fresh.length?ft('reviewHint'):ft('empty')}</p>${summary.next?`<p>${ft('nextDue')}: ${dateLabel(summary.next)}</p>`:''}<button type="button" id="startReview" class="btn primary" ${summary.due.length||summary.fresh.length?'':'disabled'}>${ft(reviewStarted?'reviewAgain':'startReview')}</button>`;
  return;
  }
- const kind=typeof item.id==='number'?'word':'phrase';
+ const kind=typeof item.id==='number'||item.sourceStory?'word':'phrase';
  $('#reviewCard').innerHTML=`<div class="review-card-top"><span>${ft('session')} ${reviewIndex+1} ${ft('of')} ${reviewSession.length}</span><span class="tag">${item.level} · ${ft(kind)}</span></div><p class="small-label">${ft('recall')}</p><h3 lang="de">${escapeHtml(item.de)}</h3><button type="button" class="speaker-btn" data-speak="${escapeHtml(item.de)}" aria-label="${escapeHtml(item.de)}">♪</button>${reviewRevealed?`<p class="review-meaning">${escapeHtml(meaning(item))}</p>${examplesHTML(item,false)}<div class="review-ratings">${['again','hard','good','easy'].map(rating=>`<button type="button" data-rating="${rating}"><strong>${ft(rating)}</strong><span>${intervalLabel(ReviewScheduler.next(reviewData[itemKey(item)],rating).interval)}</span></button>`).join('')}</div>`:`<button type="button" id="revealReview" class="btn primary reveal-answer">${ft('reveal')}</button>`}`;
 }
 function startReview(){

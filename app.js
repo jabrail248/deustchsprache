@@ -376,6 +376,7 @@ function updateLanguageUI(){
   renderWords();
   updateDashboard();
   updateFeatureUI();
+  updateStoryUI();
   if(quizComplete){newQuiz(false);return;}
   if(currentQuiz){
     setText('#quizPrompt',t('quizPrompt'));
@@ -548,4 +549,4 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
 $('#heroLearningBtn').addEventListener('click',()=>setState(176,'learning'));
 $('#heroMasteredBtn').addEventListener('click',()=>setState(176,'mastered'));
-initFeatures(); initTheme(); updateLanguageUI(); newQuiz(true);
+initStoryVocabulary(); initFeatures(); initStories(); initTheme(); updateLanguageUI(); newQuiz(true);

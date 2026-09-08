@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="az" data-theme="light" data-build="12">
+<html lang="az" data-theme="light" data-build="13">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=13" />
 </head>
 <body>
   <div class="ambient ambient-one"></div>
@@ -21,6 +21,8 @@
     </a>
     <nav>
       <a href="#learn" id="navWords">Sözlər</a>
+      <a href="#review" data-feature-text="navReview">Təkrar</a>
+      <a href="#phrases" data-feature-text="navPhrases">İfadələr</a>
       <a href="#quiz" id="navQuiz">Quiz</a>
       <a href="#progress" id="navProgress">Proqres</a>
     </nav>
@@ -40,6 +42,7 @@
         <p class="lead" id="heroLead">A1-dən C1-ə qədər 250 vacib Alman sözü. Azərbaycan və İngilis tərcümələri, tələffüz, quiz və proqres izləmə — hamısı bir yerdə.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#learn" id="startLearningBtn">Öyrənməyə başla <span>→</span></a>
+          <a class="btn secondary" href="#review" data-feature-text="practice">Bu gün təkrar et</a>
           <button class="btn secondary" id="randomWordBtn" type="button">Təsadüfi söz</button>
         </div>
         <div class="trust-row">
@@ -79,6 +82,12 @@
       </div>
     </section>
 
+    <section id="review" class="section shell review-section">
+      <div class="section-head"><div><p class="eyebrow" data-feature-text="navReview">Təkrar</p><h2 data-feature-text="reviewTitle">Bu gün təkrar et.</h2><p class="section-copy" data-feature-text="reviewCopy"></p></div>
+      <label class="feature-level"><span data-feature-text="level">Səviyyə</span><select id="reviewLevel"><option value="A1">A1</option></select></label></div>
+      <div class="review-layout"><aside class="review-sidebar"><strong id="reviewStats" aria-live="polite"></strong><p data-feature-text="reviewHint"></p><p id="reviewStorage"></p></aside><div class="review-card" id="reviewCard"></div></div>
+    </section>
+
     <section id="learn" class="section shell">
       <div class="section-head reveal">
         <div>
@@ -104,6 +113,11 @@
         </select>
       </div>
       <div class="word-grid" id="wordGrid"></div>
+    </section>
+
+    <section id="phrases" class="section shell">
+      <div class="section-head"><div><p class="eyebrow" data-feature-text="navPhrases">İfadələr</p><h2 data-feature-text="phrasesTitle"></h2><p class="section-copy" data-feature-text="phrasesCopy"></p></div><label class="feature-level"><span data-feature-text="level">Səviyyə</span><select id="phraseLevel"><option value="A1">A1</option></select></label></div>
+      <p id="phraseCount" class="toolbar-note"></p><div id="phraseGrid" class="word-grid"></div>
     </section>
 
     <section id="quiz" class="quiz-section">
@@ -176,6 +190,10 @@
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=12"></script>
+  <script src="examples.js?v=13"></script>
+  <script src="phrases.js?v=13"></script>
+  <script src="review.js?v=13"></script>
+  <script src="features.js?v=13"></script>
+  <script src="app.js?v=13"></script>
 </body>
 </html>

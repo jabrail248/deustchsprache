@@ -281,7 +281,11 @@ let translationLanguage=safeGet('deutsch250-language','az');
 if(!['az','en'].includes(translationLanguage)) translationLanguage='az';
 let progress={};
 try { progress=JSON.parse(safeGet('deutsch250-progress','{}'))||{}; } catch(e) { progress={}; }
+if(!progress || typeof progress!=='object' || Array.isArray(progress)) progress={};
+Object.keys(progress).forEach(id=>{if(!words.some(w=>String(w.id)===id)||!['learning','mastered'].includes(progress[id]))delete progress[id];});
 let currentQuiz=null;
+let quizSelected=null;
+let quizComplete=false;
 let quizAnswered=0;
 let quizCorrect=0;
 const $=s=>document.querySelector(s);
@@ -371,9 +375,11 @@ function updateLanguageUI(){
   initLevels();
   renderWords();
   updateDashboard();
+  updateFeatureUI();
+  if(quizComplete){newQuiz(false);return;}
   if(currentQuiz){
     setText('#quizPrompt',t('quizPrompt'));
-    setText('#quizCounter',`${t('question')} ${Math.min(quizAnswered+1,10)} / 10`);
+    setText('#quizCounter',`${t('question')} ${Math.min(quizAnswered+(quizSelected===null?1:0),10)} / 10`);
     setText('#nextQuiz',quizAnswered>=10?t('seeResult'):t('nextQuestion'));
     renderCurrentQuizOptions();
   }
@@ -397,7 +403,7 @@ function save(){
 function state(id){return progress[id]||'new'}
 function setState(id,val){
   if(state(id)===val) delete progress[id]; else progress[id]=val;
-  save(); renderWords(); showToast(val==='mastered'?t('learnedToast'):val==='learning'?t('learningToast'):t('newToast'));
+  save(); syncWordReview(id); renderWords(); showToast(state(id)==='mastered'?t('learnedToast'):state(id)==='learning'?t('learningToast'):t('newToast'));
 }
 function showToast(message){
   const toast=$('#toast'); toast.textContent=message; toast.classList.add('show');
@@ -423,8 +429,9 @@ function initLevels(){
   const wrap=$('#levelButtons');
   wrap.innerHTML=Object.entries(levelCounts).map(([l,c])=>`<button class="level-btn ${l===activeLevel?'active':''}" data-level="${l}"><b>${l}</b><span>${c} ${t('words')}</span><small>${levelLabelsByLang[translationLanguage][l]}</small></button>`).join('');
   const q=$('#quizLevel');
+  const previousQuizLevel=q.value;
   q.innerHTML=Object.keys(levelCounts).map(l=>`<option value="${l}">${l} · ${levelCounts[l]} ${t('words')}</option>`).join('');
-  q.value=activeLevel;
+  q.value=previousQuizLevel||activeLevel;
 }
 $('#levelButtons').addEventListener('click',e=>{
   const b=e.target.closest('.level-btn'); if(!b)return;
@@ -447,7 +454,8 @@ function renderWords(){
         <span class="tag">${w.level} · ${typeLabels[translationLanguage][w.type]||w.type}</span>
         <div class="word-top-right"><span class="status-dot ${s}"></span><span class="status-text">${translationLanguage==='az'?({new:'yeni',learning:'öyrənilir',mastered:'öyrənildi'}[s]):s}</span><button class="speaker-btn" data-speak="${escapeHtml(w.de)}" type="button" aria-label="Listen to ${escapeHtml(w.de)}">♪</button></div>
       </div>
-      <h3>${escapeHtml(w.de)}</h3><p class="meaning">${escapeHtml(meaning(w))}</p>
+      <h3 lang="de">${escapeHtml(w.de)}</h3><p class="meaning">${escapeHtml(meaning(w))}</p>
+      ${examplesHTML(w)}
       <div class="word-actions">
         <button data-id="${w.id}" data-state="learning" class="${s==='learning'?'active-learning':''}">${translationLanguage==='az'?'Öyrənilir':'Learning'}</button>
         <button data-id="${w.id}" data-state="mastered" class="${s==='mastered'?'active-mastered':''}">${translationLanguage==='az'?'Öyrənildi':'Mastered'}</button>
@@ -465,13 +473,15 @@ $('#statusFilter').addEventListener('change',renderWords);
 document.addEventListener('click',e=>{const s=e.target.closest('[data-speak]');if(s && !s.closest('#wordGrid')) speak(s.dataset.speak)});
 
 function newQuiz(resetRound=false){
-  if(resetRound){quizAnswered=0;quizCorrect=0;updateQuizScore();}
+  if(resetRound){quizAnswered=0;quizCorrect=0;quizComplete=false;updateQuizScore();}
   if(quizAnswered>=10){
+    quizComplete=true;
     $('#quizWord').textContent=t('quizComplete');
     $('#quizOptions').innerHTML=`<button class="quiz-option" id="restartQuiz">${t('restart')}</button>`;
     $('#quizFeedback').textContent=translationLanguage==='az'?`10 sualdan ${quizCorrect} düzgün cavab verdin.`:`You answered ${quizCorrect} of 10 questions correctly.`;
     $('#quizCounter').textContent=t('questionsComplete'); $('#nextQuiz').classList.add('hidden'); return;
   }
+  quizSelected=null;
   const lvl=$('#quizLevel').value||'A1'; const pool=words.filter(w=>w.level===lvl);
   currentQuiz=pool[Math.floor(Math.random()*pool.length)];
   const wrong=pool.filter(w=>w.id!==currentQuiz.id).sort(()=>Math.random()-.5).slice(0,3);
@@ -484,18 +494,26 @@ function newQuiz(resetRound=false){
 function renderCurrentQuizOptions(){
   if(!currentQuiz || !currentQuiz.options)return;
   $('#quizOptions').innerHTML=currentQuiz.options.map(o=>`<button class="quiz-option" data-id="${o.id}">${escapeHtml(meaning(o))}</button>`).join('');
+  if(quizSelected!==null)renderQuizAnswer();
+}
+function renderQuizAnswer(){
+  const ok=quizSelected===currentQuiz.id;
+  document.querySelectorAll('.quiz-option[data-id]').forEach(button=>{button.disabled=true;button.classList.toggle('correct',Number(button.dataset.id)===currentQuiz.id);button.classList.toggle('wrong',!ok&&Number(button.dataset.id)===quizSelected);});
+  $('#quizFeedback').textContent=ok?t('correct'):(translationLanguage==='az'?`Yanlışdır. “${currentQuiz.de}” “${meaning(currentQuiz)}” deməkdir.`:`Not quite. “${currentQuiz.de}” means “${meaning(currentQuiz)}”.`);
 }
 function updateQuizScore(){ $('#quizScore').textContent=`${quizCorrect} / ${quizAnswered}`; }
 $('#quizOptions').addEventListener('click',e=>{
   if(e.target.id==='restartQuiz'){newQuiz(true);return;}
-  const b=e.target.closest('.quiz-option[data-id]'); if(!b || document.querySelector('.quiz-option.correct'))return;
-  const ok=Number(b.dataset.id)===currentQuiz.id;
+  const b=e.target.closest('.quiz-option[data-id]'); if(!b || quizSelected!==null)return;
+  quizSelected=Number(b.dataset.id);
+  const ok=quizSelected===currentQuiz.id;
+  renderQuizAnswer();
   document.querySelectorAll('.quiz-option[data-id]').forEach(x=>{if(Number(x.dataset.id)===currentQuiz.id)x.classList.add('correct')});
   if(!ok)b.classList.add('wrong');
   quizAnswered++; if(ok)quizCorrect++; updateQuizScore();
   $('#quizFeedback').textContent=ok?(translationLanguage==='az'?'Doğrudur ✓':'Correct ✓'):(translationLanguage==='az'?`Yanlışdır. “${currentQuiz.de}” “${meaning(currentQuiz)}” deməkdir.`:`Not quite. “${currentQuiz.de}” means “${meaning(currentQuiz)}”.`);
   $('#nextQuiz').textContent=quizAnswered>=10?t('seeResult'):t('nextQuestion'); $('#nextQuiz').classList.remove('hidden');
-  if(ok&&state(currentQuiz.id)==='new'){progress[currentQuiz.id]='learning';save();}
+  if(ok&&state(currentQuiz.id)==='new'){progress[currentQuiz.id]='learning';save();syncWordReview(currentQuiz.id);renderWords();}
 });
 $('#nextQuiz').addEventListener('click',()=>newQuiz(false));
 $('#quizLevel').addEventListener('change',()=>newQuiz(true));
@@ -508,13 +526,16 @@ function updateDashboard(){
   $('#masteredCount').textContent=mastered; $('#learningCount').textContent=learning; $('#newCount').textContent=words.length-mastered-learning; $('#overallPercent').textContent=`${pct}%`;
   $('#overallRing').style.setProperty('--p',`${pct*3.6}deg`);
   $('#masteryMessage').textContent=pct===0?t('startMsg'):pct<25?t('goodStart'):pct<60?t('greatProgress'):pct<100?t('almostThere'):t('allLearned');
+  const b2percent=Math.round(words.filter(w=>w.level==='B2'&&state(w.id)==='mastered').length/levelCounts.B2*100);
+  $('.mini-progress-card strong').textContent=b2percent+'%';
+  $('.mini-progress-card .tiny-bar i').style.width=b2percent+'%';
   $('#progressBars').innerHTML=Object.keys(levelCounts).map(l=>{
     const ws=words.filter(w=>w.level===l); const m=ws.filter(w=>state(w.id)==='mastered').length; const p=Math.round(m/ws.length*100);
     return `<div class="bar-row"><b>${l}</b><div class="bar"><div style="width:${p}%"></div></div><span>${m}/${ws.length}</span></div>`;
   }).join('');
 }
 $('#resetProgress').addEventListener('click',()=>{
-  if(confirm(t('resetConfirm'))){progress={};save();renderWords();showToast(t('resetDone'));}
+  if(confirm(ft('resetConfirm'))){progress={};resetReviews();save();renderWords();showToast(t('resetDone'));}
 });
 
 $('#randomWordBtn').addEventListener('click',()=>{
@@ -525,4 +546,6 @@ $('#randomWordBtn').addEventListener('click',()=>{
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
-initTheme(); updateLanguageUI(); newQuiz(true);
+$('#heroLearningBtn').addEventListener('click',()=>setState(176,'learning'));
+$('#heroMasteredBtn').addEventListener('click',()=>setState(176,'mastered'));
+initFeatures(); initTheme(); updateLanguageUI(); newQuiz(true);

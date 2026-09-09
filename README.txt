@@ -1,6 +1,14 @@
-Deutsch250 — version 14
+Deutsch250 — version 15
 
-WHAT IS NEW IN VERSION 14
+WHAT IS NEW IN VERSION 15
+- German voice selector with voice preview, using the voices available on the device.
+- Slow 0.75x, Normal 1x and Fast 1.25x settings apply to all pronunciation and story audio.
+- Voice and speed preferences are saved in this browser.
+- Changes during a story repeat the current sentence.
+- Natural-sounding output depends on the installed/browser voices; recorded narration is not included.
+- Checked voice filtering, selection, playback configuration, story restart and saved preferences with a simulated speech engine. Real-device listening was not performed.
+
+VERSION 14 FEATURES
 - Ten original A2-B1 stories, each 150-165 words, with three comprehension questions.
 - Tap any word in the story text for Azerbaijani/English translation.
 - The popup shows the dictionary form, noun plural and irregular verb forms where relevant.
@@ -20,11 +28,11 @@ UPDATE YOUR EXISTING SITE
 1. Extract this ZIP.
 2. Open your jabrail248/deustchsprache repository on GitHub.
 3. Choose Add file > Upload files.
-4. Upload all ten files from this folder into the repository root, replacing existing files with the same names. Do not upload only the ZIP or put the files inside an extra folder.
+4. Upload all eleven files from this folder into the repository root, replacing existing files with the same names. Do not upload only the ZIP or put the files inside an extra folder.
 5. Commit the changes. Your existing GitHub Pages configuration will publish them.
 6. Refresh the website. If you see the previous version, press Ctrl+F5.
 
-Files: index.html, styles.css, app.js, examples.js, phrases.js, review.js, features.js, stories-data.js, stories.js, README.txt.
+Files: index.html, styles.css, app.js, examples.js, phrases.js, review.js, features.js, stories-data.js, stories.js, audio.js, README.txt.
 No API key, paid AI service, build step or new package is required.
 
 REVIEW BEHAVIOUR

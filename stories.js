@@ -2,7 +2,7 @@ const storyUI = {
  en:{nav:'Stories',title:'Read a little. Learn in context.',intro:'10 short stories · A2–B1. Tap any word for its translation and forms.',choose:'Choose a story',hint:'Tap a word. Its translation appears above it.',listen:'Listen to story',stop:'Stop audio',questions:'Check your understanding',correct:'Correct!',incorrect:'Correct answer:',score:'correct',close:'Close translation',plural:'Plural',noPlural:'Usually no plural in this meaning',forms:'Irregular verb forms',formLabels:'he/she/it · simple past · perfect',inText:'In the story',base:'Base form',save:'Add to review',saved:'In your review queue',translation:'Word translation',read:'Read stories',noun:'Noun',verb:'Verb',name:'Name',word:'Word',count:'words'},
  az:{nav:'Hekayələr',title:'Oxu və sözləri mətn içində öyrən.',intro:'10 qısa hekayə · A2–B1. Tərcümə və formalar üçün istənilən sözə toxun.',choose:'Hekayə seç',hint:'Sözə toxun. Tərcüməsi yuxarıda görünəcək.',listen:'Hekayəni dinlə',stop:'Səsi dayandır',questions:'Nə başa düşdün?',correct:'Doğrudur!',incorrect:'Düzgün cavab:',score:'düzgün cavab',close:'Tərcüməni bağla',plural:'Cəm',noPlural:'Bu mənada adətən cəmi işlənmir',forms:'Qaydasız fel formaları',formLabels:'o (indiki zaman) · keçmiş zaman · perfekt',inText:'Hekayədə',base:'Əsas forma',save:'Təkrara əlavə et',saved:'Təkrar siyahısındadır',translation:'Sözün tərcüməsi',read:'Hekayələri oxu',noun:'İsim',verb:'Fel',name:'Ad',word:'Söz',count:'söz'}
 };
-let selectedStory=0,storyAnswers={},storyTokens=[],popupTarget=null,popupIndex=null,storySpeaking=false,storySpeechGeneration=0;
+let selectedStory=0,storyAnswers={},storyTokens=[],popupTarget=null,popupIndex=null,storySpeaking=false,storySpeechGeneration=0,storySentenceIndex=0;
 const storyStudyItems=[];
 const storyEntryItems=new Map();
 function st(key){return storyUI[translationLanguage][key];}
@@ -101,19 +101,22 @@ function openWordPopup(button){
  $('#wordPopup').setAttribute('aria-label',st('translation'));$('#wordPopup').hidden=false;positionWordPopup();$('#closeWordPopup').focus({preventScroll:true});
 }
 function cancelStorySpeech(){
- if(storySpeaking&&'speechSynthesis' in window)window.speechSynthesis.cancel();
- storySpeaking=false;storySpeechGeneration++;if($('#listenStory'))$('#listenStory').textContent=st('listen');
+ const wasSpeaking=storySpeaking;storySpeaking=false;storySpeechGeneration++;
+ if(wasSpeaking&&'speechSynthesis' in window)window.speechSynthesis.cancel();
+ if($('#listenStory'))$('#listenStory').textContent=st('listen');
 }
-function playStory(){
+function playStory(startAt=0){
+ if(typeof startAt!=='number')startAt=0;
  if(storySpeaking){cancelStorySpeech();return;}
  if(!('speechSynthesis' in window)){showToast(t('speechUnsupported'));return;}
  window.speechSynthesis.cancel();storySpeaking=true;const generation=++storySpeechGeneration;$('#listenStory').textContent=st('stop');
- const sentences=stories[selectedStory].text.match(/[^.!?]+[.!?]?/g)||[];let index=0;
+ const sentences=stories[selectedStory].text.match(/[^.!?]+[.!?]?/g)||[];let index=startAt;
  function next(){
   if(generation!==storySpeechGeneration)return;
   if(index>=sentences.length){storySpeaking=false;$('#listenStory').textContent=st('listen');return;}
-  const utterance=new SpeechSynthesisUtterance(sentences[index++].trim());utterance.lang='de-DE';utterance.rate=.88;
-  utterance.onend=next;utterance.onerror=()=>{if(generation===storySpeechGeneration)cancelStorySpeech();};window.speechSynthesis.speak(utterance);
+  storySentenceIndex=index;
+  const utterance=configureSpeech(new SpeechSynthesisUtterance(sentences[index++].trim()));
+  utterance.onend=next;utterance.onerror=event=>{if(generation===storySpeechGeneration){cancelStorySpeech();showAudioError(event);}};window.speechSynthesis.speak(utterance);
  }
  next();
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="az" data-theme="light" data-build="14">
+<html lang="az" data-theme="light" data-build="15">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=14" />
+  <link rel="stylesheet" href="styles.css?v=15" />
 </head>
 <body>
   <div class="ambient ambient-one"></div>
@@ -86,6 +86,11 @@
 
     <section id="stories" class="section shell stories-section">
       <div class="section-head"><div><p class="eyebrow" data-story-text="nav">Hekayələr</p><h2 data-story-text="title">Oxu və sözləri mətn içində öyrən.</h2><p class="section-copy" data-story-text="intro"></p></div></div>
+      <div class="audio-settings" id="audioSettings">
+        <h3 data-audio-text="title">Səs və sürət</h3>
+        <div class="audio-controls"><label><span data-audio-text="voice">Almanca səs</span><select id="speechVoice" aria-describedby="audioHint audioStatus"></select></label><label><span data-audio-text="speed">Oxuma sürəti</span><select id="speechSpeed"></select></label><button type="button" class="btn secondary" id="previewVoice" data-audio-text="preview">Səsi sına</button></div>
+        <p id="audioHint" data-audio-text="hint"></p><p id="audioStatus" role="status"></p>
+      </div>
       <label class="story-picker"><span data-story-text="choose">Hekayə seç</span><select id="storySelect"></select></label>
       <article class="story-reader"><div class="story-reader-header"><span id="storyMeta"></span><button class="btn secondary" id="listenStory" type="button" data-story-text="listen">Hekayəni dinlə</button></div><h3 id="storyTitle" lang="de"></h3><p class="story-hint" data-story-text="hint"></p><div id="storyText" lang="de"></div></article>
       <div class="story-comprehension"><h3 data-story-text="questions">Nə başa düşdün?</h3><p id="storyScore" role="status"></p><div id="storyQuestions"></div></div>
@@ -200,12 +205,13 @@
 
   <div id="wordPopup" class="word-popup" role="dialog" aria-modal="false" aria-labelledby="wordPopupTitle" hidden></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="examples.js?v=14"></script>
-  <script src="phrases.js?v=14"></script>
-  <script src="review.js?v=14"></script>
-  <script src="stories-data.js?v=14"></script>
-  <script src="stories.js?v=14"></script>
-  <script src="features.js?v=14"></script>
-  <script src="app.js?v=14"></script>
+  <script src="examples.js?v=15"></script>
+  <script src="phrases.js?v=15"></script>
+  <script src="review.js?v=15"></script>
+  <script src="stories-data.js?v=15"></script>
+  <script src="stories.js?v=15"></script>
+  <script src="features.js?v=15"></script>
+  <script src="audio.js?v=15"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>

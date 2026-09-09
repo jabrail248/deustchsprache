@@ -377,6 +377,7 @@ function updateLanguageUI(){
   updateDashboard();
   updateFeatureUI();
   updateStoryUI();
+  renderAudioUI();
   if(quizComplete){newQuiz(false);return;}
   if(currentQuiz){
     setText('#quizPrompt',t('quizPrompt'));
@@ -412,7 +413,10 @@ function showToast(message){
 }
 function speak(text){
   if(!('speechSynthesis' in window)){showToast(t('speechUnsupported'));return;}
-  speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='de-DE'; u.rate=.88; speechSynthesis.speak(u);
+  cancelStorySpeech();
+  window.speechSynthesis.cancel();
+  const u=configureSpeech(new SpeechSynthesisUtterance(text));
+  u.onerror=showAudioError;window.speechSynthesis.speak(u);
 }
 
 function initTheme(){
@@ -549,4 +553,4 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
 $('#heroLearningBtn').addEventListener('click',()=>setState(176,'learning'));
 $('#heroMasteredBtn').addEventListener('click',()=>setState(176,'mastered'));
-initStoryVocabulary(); initFeatures(); initStories(); initTheme(); updateLanguageUI(); newQuiz(true);
+initAudio(); initStoryVocabulary(); initFeatures(); initStories(); initTheme(); updateLanguageUI(); newQuiz(true);

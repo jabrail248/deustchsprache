@@ -43,7 +43,8 @@ function initStoryVocabulary(){
    if(!token.word)continue;
    if(!token.entry)throw Error('Missing story translation: '+token.text);
    const e=token.entry,key=entryIdentity(e);if(storyEntryItems.has(key))continue;
-   const known=words.find(w=>w.de===e.de && ((e.kind==='n'&&w.type==='noun')||(e.kind==='v'&&w.type==='verb')));
+   // Keep v14/v15 storyword IDs stable when the main vocabulary grows.
+   const known=words.find(w=>w.id<=250 && w.de===e.de && ((e.kind==='n'&&w.type==='noun')||(e.kind==='v'&&w.type==='verb')));
    const item=known||{id:'storyword-'+encodeURIComponent(key),de:e.de,en:e.en,az:e.az,level:story.level,sourceStory:true,examples:[]};
    storyEntryItems.set(key,item);
    if(!known)storyStudyItems.push(item);

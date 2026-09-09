@@ -262,9 +262,11 @@ const words = [
 ['B2','beeinflussen','to influence','verb'],['B2','beurteilen','to assess / judge','verb'],['B2','begründen','to justify','verb'],['B2','behaupten','to claim','verb'],['B2','betrachten','to consider / view','verb'],['B2','berücksichtigen','to take into account','verb'],['B2','darstellen','to present / depict','verb'],['B2','feststellen','to determine / establish','verb'],['B2','fördern','to promote','verb'],['B2','fordern','to demand','verb'],['B2','verfügen','to have at one’s disposal','verb'],['B2','vergleichen','to compare','verb'],['B2','voraussetzen','to require / presuppose','verb'],['B2','widersprechen','to contradict','verb'],['B2','zusammenhängen','to be connected','verb'],['B2','zunehmen','to increase','verb'],['B2','abnehmen','to decrease','verb'],['B2','entstehen','to arise','verb'],['B2','ermöglichen','to enable','verb'],['B2','verhindern','to prevent','verb'],['B2','allerdings','however','connector'],['B2','dennoch','nevertheless','connector'],['B2','hingegen','on the other hand','connector'],['B2','inzwischen','meanwhile','adverb'],['B2','insbesondere','in particular','adverb'],['B2','grundsätzlich','generally / fundamentally','adverb'],['B2','wesentlich','essential / significant','adjective'],['B2','deutlich','clear / significant','adjective'],['B2','erheblich','considerable','adjective'],['B2','angemessen','appropriate','adjective'],['B2','verantwortlich','responsible','adjective'],['B2','vergleichbar','comparable','adjective'],['B2','unabhängig','independent','adjective'],['B2','verfügbar','available','adjective'],['B2','betroffen','affected','adjective'],['B2','die Voraussetzung','prerequisite','noun'],['B2','die Maßnahme','measure','noun'],['B2','die Entwicklung','development','noun'],['B2','die Auswirkung','effect / impact','noun'],['B2','der Zusammenhang','connection / context','noun'],['B2','die Herausforderung','challenge','noun'],['B2','die Verantwortung','responsibility','noun'],['B2','die Regelung','regulation / arrangement','noun'],['B2','die Bedeutung','significance / meaning','noun'],['B2','die Bedingung','condition','noun'],['B2','die Fähigkeit','ability','noun'],['B2','der Einfluss','influence','noun'],['B2','der Anspruch','claim / entitlement','noun'],['B2','die Folge','consequence','noun'],['B2','der Zweck','purpose','noun'],
 // C1 25
 ['C1','gewährleisten','to ensure','verb'],['C1','nachvollziehen','to comprehend / follow','verb'],['C1','einräumen','to concede / grant','verb'],['C1','hervorheben','to emphasize','verb'],['C1','abwägen','to weigh up','verb'],['C1','unterliegen','to be subject to','verb'],['C1','vorausgehen','to precede','verb'],['C1','verdeutlichen','to clarify / illustrate','verb'],['C1','wahrnehmen','to perceive / exercise','verb'],['C1','aufweisen','to exhibit / show','verb'],['C1','mithin','thus / consequently','connector'],['C1','insofern','insofar / in this respect','connector'],['C1','demnach','accordingly','connector'],['C1','folglich','consequently','connector'],['C1','weitgehend','largely','adverb'],['C1','maßgeblich','decisive / significant','adjective'],['C1','unerlässlich','indispensable','adjective'],['C1','hinreichend','sufficient','adjective'],['C1','nachhaltig','sustainable','adjective'],['C1','einschlägig','relevant / applicable','adjective'],['C1','die Abwägung','balancing / weighing','noun'],['C1','die Gegebenheit','circumstance / condition','noun'],['C1','der Umstand','circumstance','noun'],['C1','die Auffassung','view / opinion','noun'],['C1','die Tragweite','scope / significance','noun']
-].map((w,i)=>({id:i+1,level:w[0],de:w[1],en:w[2],az:azTranslations[i],type:w[3]}));
+].map((w,i)=>({id:i+1,level:w[0],de:w[1],en:w[2],az:azTranslations[i],type:w[3]})).concat(additionalWords);
 
-const levelCounts={A1:50,A2:50,B1:75,B2:50,C1:25};
+const levelCounts=Object.fromEntries(['A1','A2','B1','B2','C1'].map(level=>[level,words.filter(w=>w.level===level).length]));
+const WORD_PAGE_SIZE=30;
+let wordPage=0, wordFilterKey='';
 let activeLevel='A1';
 function safeGet(key, fallback=''){
   try {
@@ -294,13 +296,13 @@ const $=s=>document.querySelector(s);
 const uiText = {
   az: {
     navWords:'Sözlər', navQuiz:'Quiz', navProgress:'Proqres',
-    heroBadge:'250 vacib söz · A1 → C1', heroEyebrow:'ALMAN DİLİNİ DAHA AĞILLI ÖYRƏN',
+    heroBadge:'1,750 vacib söz · A1 → C1', heroEyebrow:'ALMAN DİLİNİ DAHA AĞILLI ÖYRƏN',
     heroTitle:'Həqiqətən <em>işlədəcəyin</em> Alman sözlərini öyrən.',
-    heroLead:'A1-dən C1-ə qədər 250 vacib Alman sözü. Azərbaycan və İngilis tərcümələri, tələffüz, quiz və proqres izləmə — hamısı bir yerdə.',
+    heroLead:'A1-dən C1-ə qədər 1,750 vacib Alman sözü. Azərbaycan və İngilis tərcümələri, tələffüz, quiz və proqres izləmə — hamısı bir yerdə.',
     startLearning:'Öyrənməyə başla <span>→</span>', randomWord:'Təsadüfi söz',
     trustLevelsTitle:'5 səviyyə', trustLevelsSub:'A1-dən C1-ə', trustProgressTitle:'Proqresi izlə', trustProgressSub:'Brauzerdə saxlanılır', trustPronTitle:'Tələffüz', trustPronSub:'Bir kliklə',
     heroType:'B2 · FEL', heroWordNumber:'SÖZ 176', example:'Nümunə', learning:'Öyrənilir', mastered:'Öyrənildi', new:'Yeni', thisLevel:'Bu səviyyə',
-    learnEyebrow:'SÖZLÜYÜ KƏŞF ET', learnTitle:'Səviyyəni seç.', learnCopy:'Səviyyə-səviyyə öyrən və ya 250 söz arasında dərhal axtar.',
+    learnEyebrow:'SÖZLÜYÜ KƏŞF ET', learnTitle:'Səviyyəni seç.', learnCopy:'Səviyyə-səviyyə öyrən və ya 1,750 söz arasında dərhal axtar.',
     searchPlaceholder:'Almanca və ya Azərbaycan dilində axtar…', allWords:'Bütün sözlər',
     quizEyebrow:'SÜRƏTLİ MƏŞQ', quizTitle:'Sözü yadda saxla.', quizCopy:'10 qısa sual. Dərhal nəticəni gör və yeni sözləri praktikada möhkəmləndir.', quizLevel:'Səviyyə', quizScore:'Nəticə', quizPrompt:'Bu söz nə deməkdir?', nextQuestion:'Növbəti sual →', seeResult:'Nəticəyə bax →',
     progressEyebrow:'SƏNİN PROQRESİN', progressTitle:'Kiçik addımlar böyük nəticə verir.', progressCopy:'Sözləri “Öyrənilir” və ya “Öyrənildi” kimi qeyd et və irəliləyişini izlə.', resetProgress:'Proqresi sıfırla', overallProgress:'ÜMUMİ PROQRES',
@@ -309,20 +311,20 @@ const uiText = {
     noWords:'Söz tapılmadı.', tryAnother:'Başqa axtarış və ya filtr sına.', allLevels:'bütün səviyyələrdə', words:'söz',
     question:'Sual', quizComplete:'Quiz tamamlandı!', restart:'Yenidən başla', questionsComplete:'10 sual tamamlandı',
     correct:'Doğrudur ✓', incorrectPrefix:'Yanlışdır.', means:'deməkdir.',
-    startMsg:'Sənin öyrənmə yolun buradan başlayır.', goodStart:'Yaxşı başlanğıcdır.', greatProgress:'Əla irəliləyiş — davam et.', almostThere:'Məqsədə çox yaxınsan.', allLearned:'250 sözün hamısını öyrəndin!',
+    startMsg:'Sənin öyrənmə yolun buradan başlayır.', goodStart:'Yaxşı başlanğıcdır.', greatProgress:'Əla irəliləyiş — davam et.', almostThere:'Məqsədə çox yaxınsan.', allLearned:'1,750 sözün hamısını öyrəndin!',
     resetConfirm:'Bütün öyrənmə proqresini sıfırlamaq istəyirsən?', resetDone:'Proqres sıfırlandı.',
     learnedToast:'Söz öyrənildi ✓', learningToast:'Öyrənmə siyahısına əlavə edildi', newToast:'Yeni sözlərə qaytarıldı', speechUnsupported:'Bu brauzerdə tələffüz dəstəklənmir.',
     langToast:'Tərcümələr Azərbaycan dilində göstərilir.'
   },
   en: {
     navWords:'Words', navQuiz:'Quiz', navProgress:'Progress',
-    heroBadge:'250 essential words · A1 → C1', heroEyebrow:'LEARN GERMAN SMARTER',
+    heroBadge:'1,750 essential words · A1 → C1', heroEyebrow:'LEARN GERMAN SMARTER',
     heroTitle:'Learn the German words you will <em>actually use</em>.',
-    heroLead:'250 essential German words from A1 to C1. English and Azerbaijani translations, pronunciation, quizzes and progress tracking — all in one place.',
+    heroLead:'1,750 essential German words from A1 to C1. English and Azerbaijani translations, pronunciation, quizzes and progress tracking — all in one place.',
     startLearning:'Start learning <span>→</span>', randomWord:'Random word',
     trustLevelsTitle:'5 levels', trustLevelsSub:'A1 to C1', trustProgressTitle:'Track progress', trustProgressSub:'Saved in your browser', trustPronTitle:'Pronunciation', trustPronSub:'One click',
     heroType:'B2 · VERB', heroWordNumber:'WORD 176', example:'Example', learning:'Learning', mastered:'Mastered', new:'New', thisLevel:'This level',
-    learnEyebrow:'EXPLORE THE VOCABULARY', learnTitle:'Choose your level.', learnCopy:'Learn level by level or search instantly across all 250 words.',
+    learnEyebrow:'EXPLORE THE VOCABULARY', learnTitle:'Choose your level.', learnCopy:'Learn level by level or search instantly across all 1,750 words.',
     searchPlaceholder:'Search in German or English…', allWords:'All words',
     quizEyebrow:'QUICK PRACTICE', quizTitle:'Make the word stick.', quizCopy:'10 quick questions. Get instant feedback and reinforce new vocabulary.', quizLevel:'Level', quizScore:'Score', quizPrompt:'What does this word mean?', nextQuestion:'Next question →', seeResult:'See results →',
     progressEyebrow:'YOUR PROGRESS', progressTitle:'Small steps create big results.', progressCopy:'Mark words as “Learning” or “Mastered” and track your progress.', resetProgress:'Reset progress', overallProgress:'OVERALL PROGRESS',
@@ -331,7 +333,7 @@ const uiText = {
     noWords:'No words found.', tryAnother:'Try another search or filter.', allLevels:'across all levels', words:'words',
     question:'Question', quizComplete:'Quiz complete!', restart:'Restart quiz', questionsComplete:'10 questions complete',
     correct:'Correct ✓', incorrectPrefix:'Not quite.', means:'means',
-    startMsg:'Your learning journey starts here.', goodStart:'A good start.', greatProgress:'Great progress — keep going.', almostThere:'You are very close to the goal.', allLearned:'You mastered all 250 words!',
+    startMsg:'Your learning journey starts here.', goodStart:'A good start.', greatProgress:'Great progress — keep going.', almostThere:'You are very close to the goal.', allLearned:'You mastered all 1,750 words!',
     resetConfirm:'Reset all learning progress?', resetDone:'Progress reset.',
     learnedToast:'Word mastered ✓', learningToast:'Added to your learning queue', newToast:'Moved back to new words', speechUnsupported:'Pronunciation is not supported in this browser.',
     langToast:'Translations are shown in English.'
@@ -350,7 +352,7 @@ function meaning(w){ return translationLanguage==='az' ? w.az : w.en; }
 function setText(id,value,html=false){ const el=$(id); if(el) html?el.innerHTML=value:el.textContent=value; }
 function updateStaticLanguageUI(){
   document.documentElement.lang=translationLanguage;
-  document.title=translationLanguage==='az'?'Deutsch250 — Alman dilində 250 vacib söz':'Deutsch250 — 250 Essential German Words';
+  document.title=translationLanguage==='az'?'Deutsch250 — Alman dilində 1,750 vacib söz':'Deutsch250 — 1,750 Essential German Words';
   document.querySelectorAll('.language-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===translationLanguage));
   const pairs={
     '#navWords':'navWords','#navQuiz':'navQuiz','#navProgress':'navProgress','#heroBadge':'heroBadge','#heroEyebrow':'heroEyebrow','#heroLead':'heroLead','#randomWordBtn':'randomWord',
@@ -443,16 +445,36 @@ $('#levelButtons').addEventListener('click',e=>{
   activeLevel=b.dataset.level; initLevels(); renderWords();
 });
 
+function grammarHTML(w){
+ const az=translationLanguage==='az';
+ const rows=[];
+ if(w.plural)rows.push([az?'Cəm':'Plural',w.plural==='—'?(az?'Adətən cəmi yoxdur':'Usually no plural'):w.plural==='nur Plural'?(az?'Yalnız cəmdə':'Plural only'):w.plural]);
+ if(w.forms)rows.push([az?'Fel formaları':'Verb forms',w.forms]);
+ if(w.preposition)rows.push([az?'Sözönü / hal':'Preposition / case',w.preposition]);
+ return rows.length?'<dl class="word-grammar">'+rows.map(([label,value])=>`<div><dt>${escapeHtml(label)}</dt><dd lang="de">${escapeHtml(value)}</dd></div>`).join('')+'</dl>':'';
+}
 function renderWords(){
   const q=$('#searchInput').value.trim().toLowerCase(); const sf=$('#statusFilter').value;
+  const filterKey=JSON.stringify([q,sf,activeLevel]);
+  if(filterKey!==wordFilterKey){wordPage=0;wordFilterKey=filterKey;}
   const list=words.filter(w=>{
     const matchesText=!q || w.de.toLowerCase().includes(q) || w.en.toLowerCase().includes(q) || w.az.toLowerCase().includes(q);
     const matchesLevel=q ? true : w.level===activeLevel;
     return matchesText && matchesLevel && (sf==='all'||state(w.id)===sf);
   });
+  const pageCount=Math.ceil(list.length/WORD_PAGE_SIZE);
+  wordPage=Math.max(0,Math.min(wordPage,pageCount-1));
+  const start=wordPage*WORD_PAGE_SIZE;
+  const visible=list.slice(start,start+WORD_PAGE_SIZE);
+  $('#wordPagination').hidden=pageCount<=1;
+  $('#wordPrevious').disabled=wordPage===0;
+  $('#wordNext').disabled=wordPage>=pageCount-1;
+  $('#wordPrevious').textContent=translationLanguage==='az'?'← Əvvəlki':'← Previous';
+  $('#wordNext').textContent=translationLanguage==='az'?'Növbəti →':'Next →';
+  $('#wordPageInfo').textContent=list.length?`${start+1}–${Math.min(start+WORD_PAGE_SIZE,list.length)} / ${list.length}`:'';
   $('#wordCount').textContent=`${list.length} ${t('words')}`;
   $('#filterHint').textContent=q?` · ${t('allLevels')}`:` · ${activeLevel}`;
-  $('#wordGrid').innerHTML=list.length?list.map(w=>{
+  $('#wordGrid').innerHTML=list.length?visible.map(w=>{
     const s=state(w.id);
     return `<article class="word-card" data-level="${w.level}">
       <div class="word-top">
@@ -460,6 +482,7 @@ function renderWords(){
         <div class="word-top-right"><span class="status-dot ${s}"></span><span class="status-text">${translationLanguage==='az'?({new:'yeni',learning:'öyrənilir',mastered:'öyrənildi'}[s]):s}</span><button class="speaker-btn" data-speak="${escapeHtml(w.de)}" type="button" aria-label="Listen to ${escapeHtml(w.de)}">♪</button></div>
       </div>
       <h3 lang="de">${escapeHtml(w.de)}</h3><p class="meaning">${escapeHtml(meaning(w))}</p>
+      ${grammarHTML(w)}
       ${examplesHTML(w)}
       <div class="word-actions">
         <button data-id="${w.id}" data-state="learning" class="${s==='learning'?'active-learning':''}">${translationLanguage==='az'?'Öyrənilir':'Learning'}</button>
@@ -473,6 +496,11 @@ $('#wordGrid').addEventListener('click',e=>{
   const speaker=e.target.closest('[data-speak]'); if(speaker){speak(speaker.dataset.speak);return;}
   const b=e.target.closest('button[data-id]'); if(!b)return; setState(b.dataset.id,b.dataset.state);
 });
+function changeWordPage(delta){
+ wordPage+=delta;renderWords();$('#learn').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('#wordPrevious').addEventListener('click',()=>changeWordPage(-1));
+$('#wordNext').addEventListener('click',()=>changeWordPage(1));
 $('#searchInput').addEventListener('input',renderWords);
 $('#statusFilter').addEventListener('change',renderWords);
 document.addEventListener('click',e=>{const s=e.target.closest('[data-speak]');if(s && !s.closest('#wordGrid')) speak(s.dataset.speak)});
@@ -489,7 +517,8 @@ function newQuiz(resetRound=false){
   quizSelected=null;
   const lvl=$('#quizLevel').value||'A1'; const pool=words.filter(w=>w.level===lvl);
   currentQuiz=pool[Math.floor(Math.random()*pool.length)];
-  const wrong=pool.filter(w=>w.id!==currentQuiz.id).sort(()=>Math.random()-.5).slice(0,3);
+  const usedMeanings=new Set([meaning(currentQuiz).toLocaleLowerCase()]);
+  const wrong=pool.filter(w=>w.id!==currentQuiz.id).sort(()=>Math.random()-.5).filter(w=>{const text=meaning(w).toLocaleLowerCase();if(usedMeanings.has(text))return false;usedMeanings.add(text);return true;}).slice(0,3);
   const opts=[currentQuiz,...wrong].sort(()=>Math.random()-.5);
   currentQuiz.options=opts;
   $('#quizWord').textContent=currentQuiz.de; $('#quizFeedback').textContent=''; $('#nextQuiz').classList.add('hidden');

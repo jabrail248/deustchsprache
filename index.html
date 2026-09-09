@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="az" data-theme="light" data-build="15">
+<html lang="az" data-theme="light" data-build="16">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deutsch250 — Alman dilində 250 vacib söz</title>
-  <meta name="description" content="A1-dən C1-ə qədər 250 vacib Alman sözünü Azərbaycan və İngilis dillərində öyrən." />
+  <title>Deutsch250 — Alman dilində 1,750 vacib söz</title>
+  <meta name="description" content="A1-dən C1-ə qədər 1,750 vacib Alman sözünü Azərbaycan və İngilis dillərində öyrən." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15" />
+  <link rel="stylesheet" href="styles.css?v=16" />
 </head>
 <body>
   <div class="ambient ambient-one"></div>
@@ -37,10 +37,10 @@
   <main>
     <section id="home" class="hero shell">
       <div class="hero-copy reveal">
-        <div class="hero-badge" id="heroBadge"><span class="pulse-dot"></span> 250 vacib söz · A1 → C1</div>
+        <div class="hero-badge" id="heroBadge"><span class="pulse-dot"></span> 1,750 vacib söz · A1 → C1</div>
         <p class="eyebrow" id="heroEyebrow">ALMAN DİLİNİ DAHA AĞILLI ÖYRƏN</p>
         <h1 id="heroTitle">Həqiqətən <em>işlədəcəyin</em> Alman sözlərini öyrən.</h1>
-        <p class="lead" id="heroLead">A1-dən C1-ə qədər 250 vacib Alman sözü. Azərbaycan və İngilis tərcümələri, tələffüz, quiz və proqres izləmə — hamısı bir yerdə.</p>
+        <p class="lead" id="heroLead">A1-dən C1-ə qədər 1,750 vacib Alman sözü. Azərbaycan və İngilis tərcümələri, tələffüz, quiz və proqres izləmə — hamısı bir yerdə.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#learn" id="startLearningBtn">Öyrənməyə başla <span>→</span></a>
           <a class="btn secondary" href="#stories" data-story-text="read">Hekayələri oxu</a>
@@ -107,7 +107,7 @@
         <div>
           <p class="eyebrow" id="learnEyebrow">SÖZLÜYÜ KƏŞF ET</p>
           <h2 id="learnTitle">Səviyyəni seç.</h2>
-          <p class="section-copy" id="learnCopy">Səviyyə-səviyyə öyrən və ya 250 söz arasında dərhal axtar.</p>
+          <p class="section-copy" id="learnCopy">Səviyyə-səviyyə öyrən və ya 1,750 söz arasında dərhal axtar.</p>
         </div>
         <label class="search-wrap">
           <span>⌕</span>
@@ -127,6 +127,11 @@
         </select>
       </div>
       <div class="word-grid" id="wordGrid"></div>
+      <nav class="word-pagination" id="wordPagination" aria-label="Vocabulary pages" hidden>
+        <button type="button" id="wordPrevious" aria-controls="wordGrid">← Əvvəlki</button>
+        <span id="wordPageInfo" aria-live="polite"></span>
+        <button type="button" id="wordNext" aria-controls="wordGrid">Növbəti →</button>
+      </nav>
     </section>
 
     <section id="phrases" class="section shell">
@@ -185,7 +190,7 @@
         <div class="progress-cards reveal">
           <div class="progress-card mastered-card"><span id="masteredLabel">Öyrənildi</span><strong id="masteredCount">0</strong><small id="masteredSub">söz tamamlandı</small></div>
           <div class="progress-card learning-card"><span id="learningLabel">Öyrənilir</span><strong id="learningCount">0</strong><small id="learningSub">öyrənmə siyahısında</small></div>
-          <div class="progress-card new-card"><span id="newLabel">Yeni</span><strong id="newCount">250</strong><small id="newSub">öyrənilməyi gözləyir</small></div>
+          <div class="progress-card new-card"><span id="newLabel">Yeni</span><strong id="newCount">1750</strong><small id="newSub">öyrənilməyi gözləyir</small></div>
         </div>
       </div>
 
@@ -205,13 +210,14 @@
 
   <div id="wordPopup" class="word-popup" role="dialog" aria-modal="false" aria-labelledby="wordPopupTitle" hidden></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="examples.js?v=15"></script>
-  <script src="phrases.js?v=15"></script>
-  <script src="review.js?v=15"></script>
-  <script src="stories-data.js?v=15"></script>
-  <script src="stories.js?v=15"></script>
-  <script src="features.js?v=15"></script>
-  <script src="audio.js?v=15"></script>
-  <script src="app.js?v=15"></script>
+  <script src="examples.js?v=16"></script>
+  <script src="phrases.js?v=16"></script>
+  <script src="review.js?v=16"></script>
+  <script src="stories-data.js?v=16"></script>
+  <script src="stories.js?v=16"></script>
+  <script src="features.js?v=16"></script>
+  <script src="audio.js?v=16"></script>
+  <script src="vocabulary-extra.js?v=16"></script>
+  <script src="app.js?v=16"></script>
 </body>
 </html>

@@ -352,7 +352,7 @@ function meaning(w){ return translationLanguage==='az' ? w.az : w.en; }
 function setText(id,value,html=false){ const el=$(id); if(el) html?el.innerHTML=value:el.textContent=value; }
 function updateStaticLanguageUI(){
   document.documentElement.lang=translationLanguage;
-  document.title=translationLanguage==='az'?'Deutsch250 — Alman dilində 1,750 vacib söz':'Deutsch250 — 1,750 Essential German Words';
+  document.title=translationLanguage==='az'?'Deustchly — Alman dilində 1,750 vacib söz':'Deustchly — 1,750 Essential German Words';
   document.querySelectorAll('.language-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===translationLanguage));
   const pairs={
     '#navWords':'navWords','#navQuiz':'navQuiz','#navProgress':'navProgress','#heroBadge':'heroBadge','#heroEyebrow':'heroEyebrow','#heroLead':'heroLead','#randomWordBtn':'randomWord',
@@ -376,6 +376,8 @@ function updateLanguageUI(){
   updateStaticLanguageUI();
   initLevels();
   renderWords();
+  updateVocabularyToggle();
+  if(typeof renderWorkspace==='function')renderWorkspace();
   updateDashboard();
   updateFeatureUI();
   updateStoryUI();
@@ -442,7 +444,7 @@ function initLevels(){
 }
 $('#levelButtons').addEventListener('click',e=>{
   const b=e.target.closest('.level-btn'); if(!b)return;
-  activeLevel=b.dataset.level; initLevels(); renderWords();
+  activeLevel=b.dataset.level; $('#searchInput').value=''; $('#statusFilter').value='all'; wordPage=0; initLevels(); renderWords();
 });
 
 function grammarHTML(w){
@@ -516,7 +518,7 @@ function newQuiz(resetRound=false){
   }
   quizSelected=null;
   const lvl=$('#quizLevel').value||'A1'; const pool=words.filter(w=>w.level===lvl);
-  currentQuiz=pool[Math.floor(Math.random()*pool.length)];
+  currentQuiz={...pool[Math.floor(Math.random()*pool.length)]};
   const usedMeanings=new Set([meaning(currentQuiz).toLocaleLowerCase()]);
   const wrong=pool.filter(w=>w.id!==currentQuiz.id).sort(()=>Math.random()-.5).filter(w=>{const text=meaning(w).toLocaleLowerCase();if(usedMeanings.has(text))return false;usedMeanings.add(text);return true;}).slice(0,3);
   const opts=[currentQuiz,...wrong].sort(()=>Math.random()-.5);
@@ -554,6 +556,7 @@ $('#quizLevel').addEventListener('change',()=>newQuiz(true));
 $('#quizSpeak').addEventListener('click',()=>{if(currentQuiz)speak(currentQuiz.de)});
 
 function updateDashboard(){
+  if(typeof renderWorkspace==='function')renderWorkspace();
   let mastered=0,learning=0;
   words.forEach(w=>{if(state(w.id)==='mastered')mastered++;else if(state(w.id)==='learning')learning++});
   const pct=Math.round(mastered/words.length*100);
@@ -573,6 +576,8 @@ $('#resetProgress').addEventListener('click',()=>{
 });
 
 $('#randomWordBtn').addEventListener('click',()=>{
+  $('#vocabularyContent').hidden=false;updateVocabularyToggle();
+  if(typeof navigateWorkspace==='function')navigateWorkspace('learn');
   const w=words[Math.floor(Math.random()*words.length)]; activeLevel=w.level; initLevels(); $('#searchInput').value=w.de; renderWords();
   document.querySelector('#learn').scrollIntoView({behavior:'smooth'}); setTimeout(()=>speak(w.de),500);
 });
@@ -583,3 +588,11 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 $('#heroLearningBtn').addEventListener('click',()=>setState(176,'learning'));
 $('#heroMasteredBtn').addEventListener('click',()=>setState(176,'mastered'));
 initAudio(); initStoryVocabulary(); initFeatures(); initStories(); initTheme(); updateLanguageUI(); newQuiz(true);
+
+function updateVocabularyToggle(){
+ const button=$('#vocabularyToggle');
+ button.textContent=translationLanguage==='az'?($('#vocabularyContent').hidden?'Sözləri göstər':'Sözləri gizlət'):($('#vocabularyContent').hidden?'Show vocabulary':'Hide vocabulary');
+ button.setAttribute('aria-expanded',String(!$('#vocabularyContent').hidden));
+}
+$('#vocabularyToggle').addEventListener('click',()=>{const content=$('#vocabularyContent');content.hidden=!content.hidden;updateVocabularyToggle();});
+document.querySelectorAll('a[href="#learn"]').forEach(link=>link.addEventListener('click',()=>{$('#vocabularyContent').hidden=false;updateVocabularyToggle();}));

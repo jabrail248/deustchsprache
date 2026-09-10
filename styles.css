@@ -182,3 +182,8 @@ button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible,
 .word-pagination button{font:inherit;color:inherit;background:transparent;border:1px solid currentColor;border-radius:12px;padding:10px 16px;min-height:44px;cursor:pointer}
 .word-pagination button:disabled{opacity:.35;cursor:default}
 .word-pagination button:focus-visible{outline:3px solid #f2b84b;outline-offset:3px}
+
+#vocabularyContent[hidden]{display:none}
+.vocabulary-search-row{display:flex;justify-content:flex-end;margin:0 0 20px}
+#vocabularyToggle{white-space:nowrap}
+.word-grammar,.word-pagination,.word-examples{font-size:.875rem}

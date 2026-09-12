@@ -1,12 +1,12 @@
-Sprachoo — version 18
+Sprachoo — version 19
 
 UPLOAD THIS VERSION
-1. Extract Sprachoo-v18.zip.
+1. Extract Sprachoo-v19.zip.
 2. Open jabrail248/deustchsprache, branch main.
-3. Upload ALL 19 files from the extracted folder directly into the repository root, replacing matching files. Do not upload the ZIP itself or create a subfolder.
+3. Upload ALL 23 files from the extracted folder directly into the repository root, replacing matching files. Do not upload the ZIP itself or create a subfolder.
 4. Commit the upload. Wait until the Pages deployment in GitHub Actions succeeds.
 5. Open the website in a private window or refresh with Ctrl+F5.
-6. Check for “Sprachoo · v18” in the footer. The sidebar should contain expandable Vocabulary and My Vocabulary, with no Progress page.
+6. Check for “Sprachoo · v19” in the footer. The sidebar should contain expandable Vocabulary and My Vocabulary, with no Progress page.
 
 INTERFACE
 - Sprachoo branding, collapsible sidebar and expandable A1–C1 vocabulary navigation.
@@ -28,18 +28,28 @@ CONTENT
 - 68 advanced vocabulary entries have revised Azerbaijani meanings and two newly written examples each. Existing examples for the rest of the dictionary are retained, including the previous revision's topic-based examples. Some patterns still recur; this is not a claim that all 3,500 examples received a new individual editorial rewrite in v18. CEFR assignments remain approximate.
 
 MEDIA
-- Two videos and two listening activities per level: 20 source links with click-to-load YouTube players.
-- Listening activities use the full visible YouTube player; they are not extracted audio files. The original provider's controls and branding remain present.
-- Source links were identified through web search. Live embedded playback and transcript contents could not be verified in this environment. Always-visible source links provide a fallback for unavailable embeds.
-- Two original topic-language questions accompany each activity. They are explicitly labelled as topic practice, not verified comprehension questions about the clip. A guided summary task is also included. Transcript-verified video comprehension tests remain outstanding.
-- No DW/YouTube recordings, captions, news passages or book text have been downloaded or republished. New examples, grammar and questions are original writing. Source details are in SOURCES.txt.
+- Two video activities and two audio-only listening activities per level.
+- Video embeds request a five-minute excerpt via start/end parameters. The full A1 film has been replaced with an individual Nicos Weg episode. Some other source videos are longer; their original YouTube timeline can still display the full duration. These are bounded embeds, not newly edited/rehosted short video files.
+- A Replay selected clip button restarts the selected video. A source link opens YouTube in the visitor's browser. The website cannot route video through Brave or guarantee ad-free playback.
+- Listening now uses actual provider-hosted audio recordings in HTML audio players. No YouTube player appears in Listening. Goethe's short audio files sometimes use MP4 containers; the selected files are the provider's listening tracks, not sign-language or lip-reading videos.
+- Native audio pauses at the excerpt end and clamps seeking to the selected interval. Slow/Normal/Fast applies to this audio as well as browser speech. Small recordings end naturally before five minutes. C1 uses two consecutive five-minute excerpts from the official recording.
+- Sixteen brief original comprehension questions for the eight A1–B2 listening activities were checked against the provider's published transcripts. Full transcripts were not copied. Links to official exercises/answers remain available.
+- C1 currently links to official exercises rather than claiming timestamp-verified inline comprehension scoring. Exact C1 excerpt/content alignment and live external playback still need checking.
+- Video questions remain explicitly labelled original topic-language practice. Transcript-verified video comprehension tests remain outstanding.
+- All provider media remains on its original host. No recordings were extracted from YouTube or downloaded/rehosted. Full source details are in SOURCES.txt.
 
-SAVED DATA
-Existing deutsch250 browser storage keys remain intact. New sidebar, level, personal vocabulary and lesson preferences use sprachoo keys. Keep the same website address/browser to preserve local data. Clearing browser data removes it; no account or cross-device sync is provided.
+SAVED WORDS AND ACCOUNTS
+- My Vocabulary now contains an Add a word search box: search across all levels in German, English or Azerbaijani, and choose + Add. Saved results immediately show a checkmark. The list supports notes, removal and practice.
+- Fixed the old search/filter callbacks that could render vocabulary cards without Save buttons.
+- Local saved words survive reloads in the same browser/site. Blocked storage shows an honest message rather than silently pretending persistence.
+- Existing deutsch250 review/history keys remain intact. Clearing browser data removes local data.
+- Account sign-up, sign-in, email confirmation, password reset and sign-out are implemented using optional Supabase Auth. Guest and account word lists are separate. Manual per-account vocabulary backup/restore and explicit guest-list import are included.
+- ACCOUNTS ARE NOT YET ACTIVATED: account-config.js needs the owner's Supabase project URL and public publishable/anon key, and account-schema.sql must be applied to that project. Follow ACCOUNT-SETUP.txt. Without configuration the account page clearly says accounts are unavailable; guest study/saving continues to work.
+- No password or privileged API key is stored in these files. Review history and voice preferences are device-local, not part of the vocabulary backup.
 
 VERIFICATION
-Passed simulated runtime checks for startup, original word IDs, content totals, two complete examples per word, all vocabulary pages, search, level changes, review scheduling and saved progress reload, blocked/corrupt storage, all 35 level/activity routes, assessment composition and scoring, grammar/media counts, personal-word deduplication/reload, and old progress-link redirection. Static checks confirmed unique HTML IDs, Home voice placement, script syntax and asset references.
-No real-browser visual check, external player playback check or native-speaker proofread was performed. This ZIP does not update the live website until uploaded and deployed.
+Simulated runtime checks passed for the existing vocabulary/story/navigation/review features and for the new Saved-section search and actual Add event, duplicate prevention, persistence after reload, search/filter renderer regression, separate guest/account lists, malformed imports, audio-only rendering at every level, replay/seek/stop limits, and unconfigured-account fallback. Mocked service checks passed for signup confirmation, login, password recovery/reset, backup/restore, sign-out isolation and request errors. JavaScript syntax and static HTML/asset checks passed.
+No live authentication project, database policy execution, real-browser visual check or external-player playback check was available. This ZIP does not update the live website until uploaded and deployed.
 
 FILES
-index.html, styles.css, app.js, examples.js, vocabulary-extra.js, phrases.js, review.js, features.js, stories-data.js, content-extra.js, stories.js, audio.js, workspace.js, workspace.css, course.js, course.css, course-data.js, README.txt, SOURCES.txt.
+The 19 previous files plus account.js, account-config.js, account-schema.sql, ACCOUNT-SETUP.txt = 23 files. Upload all 23 directly into the repository root, replacing matching files.

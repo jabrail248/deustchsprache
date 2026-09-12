@@ -503,8 +503,8 @@ function changeWordPage(delta){
 }
 $('#wordPrevious').addEventListener('click',()=>changeWordPage(-1));
 $('#wordNext').addEventListener('click',()=>changeWordPage(1));
-$('#searchInput').addEventListener('input',renderWords);
-$('#statusFilter').addEventListener('change',renderWords);
+$('#searchInput').addEventListener('input',()=>renderWords());
+$('#statusFilter').addEventListener('change',()=>renderWords());
 document.addEventListener('click',e=>{const s=e.target.closest('[data-speak]');if(s && !s.closest('#wordGrid')) speak(s.dataset.speak)});
 
 function newQuiz(resetRound=false){

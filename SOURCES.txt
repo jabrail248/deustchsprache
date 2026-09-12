@@ -63,3 +63,31 @@ https://www.youtube.com/watch?v=X1TPcuQDabA
 
 C1 | audio | Gespräch mit Tanja Schwarz – Hörpraxis | YouTube
 https://www.youtube.com/watch?v=K4P77qanoHc
+
+VERSION 19 — audio-only sources and transcript checks
+Provider: Goethe-Institut. Playback uses its original URLs; source files and full transcripts are not republished.
+A1 activities: https://bfu.goethe.de/a1_sd1/hoeren.php
+https://bfu.goethe.de/medien/a1/audio1_1.mp4
+https://bfu.goethe.de/medien/a1/audio1_2.mp4
+Transcript: https://www.goethe.de/pro/relaunch/prf/materialien/A1_sd1/sd_1_modellsatz.pdf (Hören Teil 1, texts 1/2)
+A2 activities: https://bfu.goethe.de/a2_mod_2MX5/hoeren.php
+https://bfu.goethe.de/medien/a2_2005/audio_a2_2_1.mp4
+https://bfu.goethe.de/medien/a2_2005/audio_a2_4_1.mp4
+Transcript: https://www.goethe.de/pro/relaunch/prf/materialien/A2/A2_Modellsatz_Erwachsene.pdf (Hören Teil 2/4)
+B1 activities: https://bfu.goethe.de/b1_mod/hoeren.php
+https://bfu.goethe.de/medien/b1_m/audio6.mp4
+https://bfu.goethe.de/medien/b1_m/audio7.mp4
+Transcript: https://www.goethe.de/pro/relaunch/prf/materialien/B1/b1_modellsatz_erwachsene.pdf (Hören Teil 2/3)
+B2 activities: https://bfu.goethe.de/b2_mod_2MX6/hoeren.php
+https://bfu.goethe.de/medien/b2_16/audio1_1.mp4
+https://bfu.goethe.de/medien/b2_16/audio1_2.mp4
+Transcript: https://www.goethe.de/pro/relaunch/prf/materialien/B2/b2_modellsatz_erwachsene.pdf (Hören Teil 1, texts for tasks 1/2 and 3/4)
+C1 official material: https://www.goethe.de/en/spr/prf/ueb/pc1.html
+https://bfu.goethe.de/c1mod/
+https://goethemp4s.akamaized.net/resources/files/mp310/pruefungstraining_1_hoeren_c1-v1.mp3 (0–300 seconds; 300–600 seconds)
+The web reader identified these audio URLs on the official pages but cannot play the audio content. No live playback guarantee is made.
+Each A1–B2 transcript supports four short original questions across two activities, with brief bilingual explanations. No full official tasks or transcripts are reproduced. Sprachoo is independent and is not endorsed by Goethe-Institut or DW.
+A1 video replacement: https://www.youtube.com/watch?v=VWDtpIIAgAI
+YouTube start/end parameters: https://developers.google.com/youtube/player_parameters
+Account integration: https://supabase.com/docs/reference/javascript/auth-signup
+Database isolation: https://supabase.com/docs/guides/database/postgres/row-level-security

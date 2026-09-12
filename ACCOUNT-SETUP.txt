@@ -1,0 +1,30 @@
+SPRAChOO ACCOUNTS — OWNER SETUP
+
+The account feature is implemented but not activated. GitHub Pages serves static files; Supabase provides authentication and a private vocabulary-backup table. No provider project or credentials are included in this download.
+
+1. Create or open your own Supabase project at https://supabase.com/dashboard .
+2. In the project's SQL editor, run account-schema.sql. This creates the vocabulary_backups table and a row-level policy that only allows each signed-in user to read/write their own row. Do not disable row-level security.
+3. In Authentication, enable Email sign-in and email confirmation. Set a minimum password length of at least 8. For a public site, configure your own SMTP sender and review the provider's email/rate limits.
+4. Set the Site URL and allowed redirect URL to exactly:
+   https://jabrail248.github.io/deustchsprache/
+   If you use a custom domain, use its full deployed site URL instead. Both confirmation and password recovery return to the site.
+5. In account-config.js, fill in url with the HTTPS Supabase project URL and publishableKey with its PUBLIC publishable key (sb_publishable_...) or legacy anon key.
+   Never put a secret key, service_role key, database password or management token in website files.
+6. Upload account-config.js along with all website files. Keep email confirmation enabled. The Account page will show Create account and Sign in when the service is reachable.
+7. Verify on the deployed site: register a test account, follow the confirmation email, sign in, copy guest words if desired, save a word, back up, sign out, and restore with that account in another browser. Also check password recovery and that a second account cannot see the first account's backup.
+
+BEHAVIOR
+- Guest study works without registration or network authentication.
+- Guest words and each account's local vocabulary list have separate storage keys.
+- Copy guest words is explicit and preserves the guest list.
+- Back up saved words stores the current account list in its private server row.
+- Restore merges cloud words into the current list. Existing local notes win. It does not delete local words; to remove a word from your backup, remove it locally and back up again.
+- Backups are manual, not continuous syncing. The page explains this.
+- Grammar/review progress and voice preferences remain device-local.
+- Passwords go to Supabase Auth. This site does not store passwords in browser storage or in the database table.
+- Without configuration, the account page clearly says accounts are not available; it does not pretend to register users.
+
+References:
+https://supabase.com/docs/reference/javascript/auth-signup
+https://supabase.com/docs/reference/javascript/auth-resetpasswordforemail
+https://supabase.com/docs/guides/database/postgres/row-level-security

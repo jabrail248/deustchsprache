@@ -352,7 +352,7 @@ function meaning(w){ return translationLanguage==='az' ? w.az : w.en; }
 function setText(id,value,html=false){ const el=$(id); if(el) html?el.innerHTML=value:el.textContent=value; }
 function updateStaticLanguageUI(){
   document.documentElement.lang=translationLanguage;
-  document.title=translationLanguage==='az'?'Deustchly — Alman dilində 1,750 vacib söz':'Deustchly — 1,750 Essential German Words';
+  document.title=translationLanguage==='az'?'Sprachoo — Alman dilində 1,750 vacib söz':'Sprachoo — 1,750 Essential German Words';
   document.querySelectorAll('.language-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===translationLanguage));
   const pairs={
     '#navWords':'navWords','#navQuiz':'navQuiz','#navProgress':'navProgress','#heroBadge':'heroBadge','#heroEyebrow':'heroEyebrow','#heroLead':'heroLead','#randomWordBtn':'randomWord',
@@ -444,7 +444,7 @@ function initLevels(){
 }
 $('#levelButtons').addEventListener('click',e=>{
   const b=e.target.closest('.level-btn'); if(!b)return;
-  activeLevel=b.dataset.level; $('#searchInput').value=''; $('#statusFilter').value='all'; wordPage=0; initLevels(); renderWords();
+  activeLevel=b.dataset.level;if(typeof courseLevel!=='undefined'){courseLevel=activeLevel;window.location.hash='level/'+activeLevel+'/learn';} $('#searchInput').value=''; $('#statusFilter').value='all'; wordPage=0; initLevels(); renderWords();
 });
 
 function grammarHTML(w){
@@ -520,7 +520,8 @@ function newQuiz(resetRound=false){
   const lvl=$('#quizLevel').value||'A1'; const pool=words.filter(w=>w.level===lvl);
   currentQuiz={...pool[Math.floor(Math.random()*pool.length)]};
   const usedMeanings=new Set([meaning(currentQuiz).toLocaleLowerCase()]);
-  const wrong=pool.filter(w=>w.id!==currentQuiz.id).sort(()=>Math.random()-.5).filter(w=>{const text=meaning(w).toLocaleLowerCase();if(usedMeanings.has(text))return false;usedMeanings.add(text);return true;}).slice(0,3);
+  const similar=pool.filter(w=>w.type===currentQuiz.type&&w.id!==currentQuiz.id);
+  const wrong=(similar.length>=3?similar:pool).filter(w=>w.id!==currentQuiz.id).sort(()=>Math.random()-.5).filter(w=>{const text=meaning(w).toLocaleLowerCase();if(usedMeanings.has(text))return false;usedMeanings.add(text);return true;}).slice(0,3);
   const opts=[currentQuiz,...wrong].sort(()=>Math.random()-.5);
   currentQuiz.options=opts;
   $('#quizWord').textContent=currentQuiz.de; $('#quizFeedback').textContent=''; $('#nextQuiz').classList.add('hidden');
@@ -576,10 +577,12 @@ $('#resetProgress').addEventListener('click',()=>{
 });
 
 $('#randomWordBtn').addEventListener('click',()=>{
-  $('#vocabularyContent').hidden=false;updateVocabularyToggle();
+  const w=words[Math.floor(Math.random()*words.length)];
+  if(typeof courseLevel!=='undefined')courseLevel=w.level;
   if(typeof navigateWorkspace==='function')navigateWorkspace('learn');
-  const w=words[Math.floor(Math.random()*words.length)]; activeLevel=w.level; initLevels(); $('#searchInput').value=w.de; renderWords();
-  document.querySelector('#learn').scrollIntoView({behavior:'smooth'}); setTimeout(()=>speak(w.de),500);
+  $('#vocabularyContent').hidden=false;updateVocabularyToggle();
+  activeLevel=w.level;initLevels();$('#searchInput').value=w.de;renderWords();
+  $('#learn').scrollIntoView({behavior:'smooth'});setTimeout(()=>speak(w.de),500);
 });
 
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});

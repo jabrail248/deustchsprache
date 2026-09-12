@@ -14,7 +14,8 @@ function renderWorkspace(){
  $('#homeProgressTrack').setAttribute('aria-valuenow',String(mastered));
  const due=Object.values(reviewData).filter(r=>r.due<=Date.now()).length;
  $('#homeDueCount').textContent=`${due} ${copy.due}`;
- $('#workspaceBreadcrumb').textContent='Deustchly / '+(copy[currentWorkspace]||copy.workspace);
+ $('#workspaceBreadcrumb').textContent='Sprachoo / '+(copy[currentWorkspace]||copy.workspace);
+ if(typeof renderCourseChrome==='function')renderCourseChrome();
 }
 function showWorkspace(route,focus=false){
  if(route!==currentWorkspace){closeWordPopup(false);cancelStorySpeech();if('speechSynthesis' in window)window.speechSynthesis.cancel();}
@@ -35,5 +36,5 @@ uiText.az.heroLead='Bir hekayə, bir neçə yeni ifadə, bir az təkrar. Bu gün
 uiText.en.heroLead='A story, a few new phrases, a little review. Choose what you would like to practise today.';
 uiText.az.startLearning='Sözləri öyrən <span>→</span>';uiText.en.startLearning='Explore vocabulary <span>→</span>';
 updateStaticLanguageUI();
-window.addEventListener('hashchange',()=>showWorkspace(workspaceRoute(),true));
+
 showWorkspace(workspaceRoute());

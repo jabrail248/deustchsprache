@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-<html lang="az" data-theme="light" data-build="17">
+<html lang="az" data-theme="light" data-build="18">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deustchly — Alman dilində 1,750 vacib söz</title>
+  <title>Sprachoo — Alman dilində 1,750 vacib söz</title>
   <meta name="description" content="A1-dən C1-ə qədər 1,750 vacib Alman sözünü Azərbaycan və İngilis dillərində öyrən." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=17" />
-  <link rel="stylesheet" href="workspace.css?v=17" />
+  <link rel="stylesheet" href="styles.css?v=18" />
+  <link rel="stylesheet" href="workspace.css?v=18" />
+  <link rel="stylesheet" href="course.css?v=18" />
 </head>
 <body>
   <div class="ambient ambient-one"></div>
   <div class="ambient ambient-two"></div>
 
   <header class="topbar">
-    <a class="brand" href="#home" aria-label="Deustchly home">
-      <span class="brand-mark">D</span>
-      <span>Deustchly</span>
+    <a class="brand" href="#home" aria-label="Sprachoo home">
+      <span class="brand-mark">S</span>
+      <span>Sprachoo</span>
     </a>
-    <nav aria-label="Main navigation">
+    <button id="sidebarToggle" type="button" class="icon-btn" aria-controls="mainNav" aria-expanded="true" aria-label="Collapse menu">☰</button>
+    <nav id="mainNav" aria-label="Main navigation">
       <a href="#home" data-workspace-text="home">Ana səhifə</a>
-      <a href="#stories" data-story-text="nav">Hekayələr</a>
-      <a href="#learn" id="navWords">Sözlər</a>
+      <details id="vocabularyNav" open><summary><span data-course-text="vocabulary">Söz ehtiyatı</span></summary><div id="sidebarLevels"></div></details>
+      <a href="#assessment" data-course-text="assessment">Almancanı yoxla</a>
       <a href="#review" data-feature-text="navReview">Təkrar</a>
-      <a href="#phrases" data-feature-text="navPhrases">İfadələr</a>
-      <a href="#quiz" id="navQuiz">Quiz</a>
-      <a href="#progress" id="navProgress">Proqres</a>
+
+      <span id="navQuiz" hidden></span>
+      <a href="#saved" id="navProgress" data-course-text="saved">Söz dəftərim</a>
     </nav>
     <div class="language-toggle" id="languageToggle" role="group" aria-label="Translation language">
       <button type="button" data-lang="en" aria-label="Show English translations">EN</button>
@@ -37,7 +39,9 @@
   </header>
 
   <main id="workspaceMain">
-    <div class="workspace-heading"><span id="workspaceBreadcrumb">Deustchly / Öyrənmə məkanı</span><span class="workspace-level-note">A1 — C1</span></div>
+    <span id="navWords" hidden></span>
+    <div class="workspace-heading"><span id="workspaceBreadcrumb">Sprachoo / Öyrənmə məkanı</span><span class="workspace-level-note">A1 — C1</span></div>
+    <div class="shell" id="levelWorkspace" hidden><div class="level-heading"><h1 id="courseLevelTitle">A1</h1><label><span data-course-text="speed">Sürət</span> <select id="levelSpeed"><option value="0.75">Slow</option><option value="1">Normal</option><option value="1.25">Fast</option></select></label></div><nav id="levelTabs" aria-label="Level activities"></nav></div>
     <section id="home" class="hero shell">
       <div class="hero-copy reveal">
         <div class="hero-badge" id="heroBadge"><span class="pulse-dot"></span> 1,750 vacib söz · A1 → C1</div>
@@ -85,22 +89,23 @@
           <div class="tiny-bar"><i style="width:24%"></i></div>
         </div>
       </div>
-      <div class="activity-grid">
-        <a class="activity-card activity-vocabulary" href="#learn"><span class="activity-number">01</span><span class="activity-meta">1,750 <span data-workspace-text="words">söz</span></span><h2 data-workspace-text="vocabulary">Söz ehtiyatı</h2><p data-workspace-text="vocabularyCopy">Mənanı, nümunələri və sözün formalarını birlikdə öyrən.</p><span class="activity-go" aria-hidden="true">↗</span></a>
-        <a class="activity-card activity-stories" href="#stories"><span class="activity-number">02</span><span class="activity-meta">20 <span data-workspace-text="storiesCount">hekayə</span></span><h2 data-workspace-text="stories">Hekayələr</h2><p data-workspace-text="storiesCopy">Qısa hekayə oxu. Yeni sözə toxun və mənasını gör.</p><span class="activity-go" aria-hidden="true">↗</span></a>
-        <a class="activity-card activity-phrases" href="#phrases"><span class="activity-number">03</span><span class="activity-meta">180 <span data-workspace-text="phrasesCount">ifadə</span></span><h2 data-workspace-text="phrases">Danışıq ifadələri</h2><p data-workspace-text="phrasesCopy">Gündəlik söhbətlərdə və işdə işlədəcəyin ifadələr.</p><span class="activity-go" aria-hidden="true">↗</span></a>
-        <a class="activity-card activity-review" href="#review"><span class="activity-number">04</span><span class="activity-meta" id="homeDueCount">0</span><h2 data-workspace-text="review">Yaddaşını möhkəmləndir</h2><p data-workspace-text="reviewCopy">Öyrəndiklərini təkrar et və çətin sözlərə qayıt.</p><span class="activity-go" aria-hidden="true">↗</span></a>
-      </div>
-      <div class="home-progress-strip"><div><span data-workspace-text="yourProgress">Sənin irəliləyişin</span><strong id="homeMasteredCount">0 / 1,750</strong></div><div class="home-progress-track" role="progressbar" aria-label="Vocabulary mastery" aria-valuemin="0" aria-valuemax="1750" aria-valuenow="0" id="homeProgressTrack"><span id="homeProgressFill"></span></div><a href="#progress" data-workspace-text="viewProgress">Proqresə bax →</a></div>
-    </section>
-
-    <section id="stories" class="section shell stories-section">
-      <div class="section-head"><div><p class="eyebrow" data-story-text="nav">Hekayələr</p><h2 data-story-text="title">Oxu və sözləri mətn içində öyrən.</h2><p class="section-copy" data-story-text="intro"></p></div></div>
       <div class="audio-settings" id="audioSettings">
         <h3 data-audio-text="title">Səs və sürət</h3>
         <div class="audio-controls"><label><span data-audio-text="voice">Almanca səs</span><select id="speechVoice" aria-describedby="audioHint audioStatus"></select></label><label><span data-audio-text="speed">Oxuma sürəti</span><select id="speechSpeed"></select></label><button type="button" class="btn secondary" id="previewVoice" data-audio-text="preview">Səsi sına</button></div>
         <p id="audioHint" data-audio-text="hint"></p><p id="audioStatus" role="status"></p>
       </div>
+      <div class="activity-grid">
+        <a class="activity-card activity-vocabulary" href="#learn"><span class="activity-number">01</span><span class="activity-meta">1,750 <span data-workspace-text="words">söz</span></span><h2 data-workspace-text="vocabulary">Söz ehtiyatı</h2><p data-workspace-text="vocabularyCopy">Mənanı, nümunələri və sözün formalarını birlikdə öyrən.</p><span class="activity-go" aria-hidden="true">↗</span></a>
+        <a class="activity-card activity-stories" href="#stories"><span class="activity-number">02</span><span class="activity-meta">22 <span data-workspace-text="storiesCount">hekayə</span></span><h2 data-workspace-text="stories">Hekayələr</h2><p data-workspace-text="storiesCopy">Qısa hekayə oxu. Yeni sözə toxun və mənasını gör.</p><span class="activity-go" aria-hidden="true">↗</span></a>
+        <a class="activity-card activity-phrases" href="#phrases"><span class="activity-number">03</span><span class="activity-meta">180 <span data-workspace-text="phrasesCount">ifadə</span></span><h2 data-workspace-text="phrases">Danışıq ifadələri</h2><p data-workspace-text="phrasesCopy">Gündəlik söhbətlərdə və işdə işlədəcəyin ifadələr.</p><span class="activity-go" aria-hidden="true">↗</span></a>
+        <a class="activity-card activity-review" href="#review"><span class="activity-number">04</span><span class="activity-meta" id="homeDueCount">0</span><h2 data-workspace-text="review">Yaddaşını möhkəmləndir</h2><p data-workspace-text="reviewCopy">Öyrəndiklərini təkrar et və çətin sözlərə qayıt.</p><span class="activity-go" aria-hidden="true">↗</span></a>
+      </div>
+      <a class="btn secondary home-saved" href="#saved" data-course-text="saved">Söz dəftərim</a>
+      <div class="home-progress-strip" hidden><div><span data-workspace-text="yourProgress">Sənin irəliləyişin</span><strong id="homeMasteredCount">0 / 1,750</strong></div><div class="home-progress-track" role="progressbar" aria-label="Vocabulary mastery" aria-valuemin="0" aria-valuemax="1750" aria-valuenow="0" id="homeProgressTrack"><span id="homeProgressFill"></span></div><a href="#saved" id="homeSavedLink">Söz dəftərim →</a></div>
+    </section>
+
+    <section id="stories" class="section shell stories-section">
+      <div class="section-head"><div><p class="eyebrow" data-story-text="nav">Hekayələr</p><h2 data-story-text="title">Oxu və sözləri mətn içində öyrən.</h2><p class="section-copy" data-story-text="intro"></p></div></div>
       <label class="story-picker"><span data-story-text="choose">Hekayə seç</span><select id="storySelect"></select></label>
       <article class="story-reader"><div class="story-reader-header"><span id="storyMeta"></span><button class="btn secondary" id="listenStory" type="button" data-story-text="listen">Hekayəni dinlə</button></div><h3 id="storyTitle" lang="de"></h3><p class="story-hint" data-story-text="hint"></p><div id="storyText" lang="de"></div></article>
       <div class="story-comprehension"><h3 data-story-text="questions">Nə başa düşdün?</h3><p id="storyScore" role="status"></p><div id="storyQuestions"></div></div>
@@ -182,7 +187,7 @@
       </div>
     </section>
 
-    <section id="progress" class="section shell progress-section">
+    <div hidden id="progress" class="section shell progress-section">
       <div class="section-head reveal">
         <div>
           <p class="eyebrow" id="progressEyebrow">SƏNİN PROQRESİN</p>
@@ -213,28 +218,37 @@
         <div class="panel-head"><strong id="levelsProgressTitle">Səviyyələr üzrə proqres</strong><span id="levelsProgressSub">Öyrənilmiş sözlər</span></div>
         <div id="progressBars" class="progress-bars"></div>
       </div>
-    </section>
+    </div>
+    <section id="saved" class="section shell"><h2 data-course-text="saved">Söz dəftərim</h2><p id="savedPracticeHint"></p><button id="savedPractice" type="button" class="btn primary"></button><div id="savedWordsList" class="word-grid"></div></section>
+    <section id="grammar" class="section shell"><h2 data-course-text="grammar">Qrammatika</h2><div id="grammarLessons"></div></section>
+    <section id="videos" class="section shell"><h2 data-course-text="videos">Videolar</h2><div id="videoActivities" class="media-grid"></div></section>
+    <section id="listening" class="section shell"><h2 data-course-text="listening">Dinləmə</h2><div id="listeningActivities" class="media-grid"></div></section>
+    <section id="assessment" class="section shell"><h2 data-course-text="assessment">Almancanı yoxla</h2><p data-course-text="assessmentIntro"></p><div id="assessmentPanel"></div></section>
+    <section id="practice" class="section shell"><h2 data-course-text="practice">Sözləri işlət</h2><div id="practicePanel"></div></section>
   </main>
 
   <footer>
+    <div class="shell release-label">Sprachoo · v18</div>
     <div class="shell footer-inner">
-      <div><a class="brand footer-brand" href="#home"><span class="brand-mark">D</span><span>Deustchly</span></a><p id="footerDescription">Alman dili üçün məqsədli söz bazası.</p></div>
+      <div><a class="brand footer-brand" href="#home"><span class="brand-mark">S</span><span>Sprachoo</span></a><p id="footerDescription">Alman dili üçün məqsədli söz bazası.</p></div>
       <div class="footer-note" id="footerNote">Sadə və sürətli · Hesab tələb olunmur</div>
     </div>
   </footer>
 
   <div id="wordPopup" class="word-popup" role="dialog" aria-modal="false" aria-labelledby="wordPopupTitle" hidden></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="examples.js?v=17"></script>
-  <script src="phrases.js?v=17"></script>
-  <script src="review.js?v=17"></script>
-  <script src="stories-data.js?v=17"></script>
-  <script src="stories.js?v=17"></script>
-  <script src="features.js?v=17"></script>
-  <script src="audio.js?v=17"></script>
-  <script src="vocabulary-extra.js?v=17"></script>
-  <script src="content-extra.js?v=17"></script>
-  <script src="app.js?v=17"></script>
-  <script src="workspace.js?v=17"></script>
+  <script src="examples.js?v=18"></script>
+  <script src="phrases.js?v=18"></script>
+  <script src="review.js?v=18"></script>
+  <script src="stories-data.js?v=18"></script>
+  <script src="stories.js?v=18"></script>
+  <script src="features.js?v=18"></script>
+  <script src="audio.js?v=18"></script>
+  <script src="vocabulary-extra.js?v=18"></script>
+  <script src="content-extra.js?v=18"></script>
+  <script src="course-data.js?v=18"></script>
+  <script src="app.js?v=18"></script>
+  <script src="workspace.js?v=18"></script>
+  <script src="course.js?v=18"></script>
 </body>
 </html>

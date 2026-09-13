@@ -1,12 +1,17 @@
-Sprachoo — version 19
+Sprachoo — version 20
 
 UPLOAD THIS VERSION
-1. Extract Sprachoo-v19.zip.
+1. Extract Sprachoo-v20.zip.
 2. Open jabrail248/deustchsprache, branch main.
-3. Upload ALL 23 files from the extracted folder directly into the repository root, replacing matching files. Do not upload the ZIP itself or create a subfolder.
+3. Upload ALL 26 files from the extracted folder directly into the repository root, replacing matching files. Do not upload the ZIP itself or create a subfolder.
 4. Commit the upload. Wait until the Pages deployment in GitHub Actions succeeds.
 5. Open the website in a private window or refresh with Ctrl+F5.
-6. Check for “Sprachoo · v19” in the footer. The sidebar should contain expandable Vocabulary and My Vocabulary, with no Progress page.
+6. Check for “Sprachoo · v20” in the footer. The sidebar should contain expandable Vocabulary and My Vocabulary, with no Progress page.
+
+NEW IN V20 — INTERACTIVE TRANSCRIPTS
+Video transcript panels now support timed highlighting, line replay, word-translation popups, optional pause on word tap, and saving a word with its sentence and source. German SRT/VTT and reviewed JSON transcripts can be imported per video. See TRANSCRIPTS.txt.
+
+TIMED CAPTIONS ARE STILL REQUIRED: the existing external videos did not come with timed transcript files. No fabricated transcripts have been bundled. Import the matching subtitle file locally or populate video-transcripts.js to make a transcript available to everyone. Dictionary translations work immediately for supported words; missing meanings are clearly identified. A live AI translation service is not configured.
 
 INTERFACE
 - Sprachoo branding, collapsible sidebar and expandable A1–C1 vocabulary navigation.
@@ -52,4 +57,4 @@ Simulated runtime checks passed for the existing vocabulary/story/navigation/rev
 No live authentication project, database policy execution, real-browser visual check or external-player playback check was available. This ZIP does not update the live website until uploaded and deployed.
 
 FILES
-The 19 previous files plus account.js, account-config.js, account-schema.sql, ACCOUNT-SETUP.txt = 23 files. Upload all 23 directly into the repository root, replacing matching files.
+The 23 v19 files plus transcripts.js, video-transcripts.js and TRANSCRIPTS.txt = 26 files. Upload all 26 directly into the repository root, replacing matching files.

@@ -1,0 +1,76 @@
+SPRAChOO v20 — INTERACTIVE VIDEO TRANSCRIPTS
+
+What is implemented
+- Video playback with a transcript panel immediately underneath.
+- Highlighting tracks the YouTube player's current time, including seeking and speed changes.
+- The time button beside a line seeks to its start and continues playback.
+- Follow speech scrolls only the transcript panel, not the whole page. Turn it off to read independently.
+- Tapping a word opens a popup above the word when there is room, otherwise below.
+- Pause on word tap is on by default. Close and continue explicitly resumes a video that the popup paused; ordinary closing does not unexpectedly restart it.
+- Available English/Azerbaijani dictionary meanings, plurals and irregular forms appear instantly.
+- Save word and sentence keeps the word, transcript line and source URL in My Vocabulary. These fields are also included in the optional account vocabulary backup.
+- Each video's existing five-minute limit remains enforced after seeking. The original provider player, controls and branding stay visible.
+
+IMPORTANT CURRENT CONTENT LIMIT
+No timed transcripts were available for the existing video lessons. Published transcript data is therefore intentionally empty. Uploading this version adds the working player and import UI; it does not automatically populate captions for those videos.
+YouTube's player API supplies playback time, not a downloadable transcript. The captions-download API requires authorization and permissions for the video. A public video URL is not a guarantee that a separate transcript can be retrieved.
+The local dictionary does not cover every possible word or automatically disambiguate every meaning. Missing entries are explicitly labelled and offer manual English/Azerbaijani entry. No live AI translation service has been configured. To supply accurate contextual senses and complete vocabulary coverage for a lesson, add reviewed per-cue glosses in the JSON format below.
+
+USE YOUR SUBTITLE FILE
+1. Open the correct video within its level.
+2. Expand Use your subtitle file below its transcript panel.
+3. Select its German SRT, VTT, or Sprachoo JSON transcript, smaller than 1 MB, with at most 3,000 cues.
+4. Press Play video. Highlighting follows the current cue and timestamp buttons replay lines.
+
+Imported files are saved only in this browser and are not uploaded to a server or account backup. A storage warning appears if the browser cannot persist them. Use Remove my transcript to return to the published version. A subtitle file must belong to the exact selected video.
+Times use the original FULL video timeline. For an excerpt beginning at 05:00, start times must be around 300 seconds, not reset to zero. Only cues intersecting the selected excerpt are displayed.
+For sentence-level highlighting, prepare each cue as a complete sentence. Existing captions with partial sentences highlight their original timed segments; the site does not invent word timings to split them.
+
+PUBLISH A TRANSCRIPT FOR ALL LEARNERS
+Edit video-transcripts.js. Add an entry keyed by the exact YouTube ID. Example schema only — the following text and times are illustrative and are not a transcript of any existing video:
+
+const publishedVideoTranscripts = {
+  "EXACT_VIDEO_ID": {
+    "cues": [
+      {
+        "start": 1.2,
+        "end": 4.8,
+        "text": "Meine Mutter kommt morgen.",
+        "glosses": {
+          "mutter": {
+            "de": "die Mutter",
+            "en": "mother",
+            "az": "ana",
+            "plural": "die Mütter"
+          },
+          "kommt": {
+            "de": "kommen",
+            "en": "to come",
+            "az": "gəlmək",
+            "forms": "kommt · kam · ist gekommen"
+          }
+        }
+      }
+    ]
+  }
+};
+
+For a JSON file imported through the UI, use only the object containing cues, without the const declaration or outer video-ID mapping.
+Gloss keys match a displayed word in lowercase German. Glosses take priority over the general dictionary. Every gloss requires de, en and az; plural and forms are optional. Use the sentence to determine the intended sense.
+Use original transcripts, appropriately licensed material, or material you have permission to publish. Do not guess captions or timestamps.
+
+TECHNICAL NOTES
+- YouTube IFrame API loads only after Play is pressed, over HTTPS. Failure is displayed with an always-available original source link.
+- Subtitle markup is converted to plain text and HTML-escaped before rendering.
+- Invalid, empty, oversized, nonfinite or reversed cues are rejected. No matching cues in the excerpt also rejects an import.
+- Overlapping captions highlight the latest-starting active cue; gaps highlight no line.
+- Leaving or rerendering the media view destroys the player, clears its polling timer and ignores stale asynchronous callbacks.
+- Follow/pause preferences are browser-local. Imported subtitles are browser-local and currently shared between guest/account sessions on that browser; personal saved words remain account-separated.
+
+VERIFICATION
+Simulated tests cover subtitle parsing, malformed files, overlaps/gaps, rendering, escaping, word lookup, contextual overrides, missing entries, saved context/source persistence, account backup preservation, highlight updates on seeks, playback bounds, cleanup, and mocked YouTube ready/replay/late-event behavior. Popup pause, save and explicit resume were exercised with a mock player.
+No live external-video playback, visual browser test, or real caption alignment check was performed. Actual media and matching caption files are required for that last check.
+
+Official API references:
+https://developers.google.com/youtube/iframe_api_reference
+https://developers.google.com/youtube/v3/docs/captions/download

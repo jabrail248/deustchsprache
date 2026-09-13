@@ -91,3 +91,8 @@ A1 video replacement: https://www.youtube.com/watch?v=VWDtpIIAgAI
 YouTube start/end parameters: https://developers.google.com/youtube/player_parameters
 Account integration: https://supabase.com/docs/reference/javascript/auth-signup
 Database isolation: https://supabase.com/docs/guides/database/postgres/row-level-security
+
+VERSION 20 — interactive transcript implementation
+https://developers.google.com/youtube/iframe_api_reference
+https://developers.google.com/youtube/v3/docs/captions/download
+Existing videos have no published timestamped transcript data yet. No third-party transcript was fetched or republished in this release. All captions used by automated tests are explicitly original fixtures and are not represented as dialogue from an existing video. See TRANSCRIPTS.txt for the import/publication process and current limits.

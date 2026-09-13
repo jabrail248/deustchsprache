@@ -9,7 +9,7 @@ let personalStorageKey='sprachoo-saved-words';
 function accountNotice(key){accountMessage=key;const el=$('#accountStatus');if(el)el.textContent=ac(key);}
 function cleanPersonalWords(list){
  if(!Array.isArray(list))return [];
- const seen=new Set();return list.filter(w=>w&&['de','en','az'].every(k=>typeof w[k]==='string'&&w[k].length>0&&w[k].length<=500)&&!seen.has(w.de)&&seen.add(w.de)).slice(0,3000).map(w=>({de:w.de,en:w.en,az:w.az,level:courseLevels.includes(w.level)?w.level:'A1',plural:typeof w.plural==='string'?w.plural.slice(0,200):'',forms:typeof w.forms==='string'?w.forms.slice(0,300):'',note:typeof w.note==='string'?w.note.slice(0,800):''}));
+ const seen=new Set();return list.filter(w=>w&&['de','en','az'].every(k=>typeof w[k]==='string'&&w[k].length>0&&w[k].length<=500)&&!seen.has(w.de)&&seen.add(w.de)).slice(0,3000).map(w=>({de:w.de,en:w.en,az:w.az,level:courseLevels.includes(w.level)?w.level:'A1',plural:typeof w.plural==='string'?w.plural.slice(0,200):'',forms:typeof w.forms==='string'?w.forms.slice(0,300):'',note:typeof w.note==='string'?w.note.slice(0,800):'',context:typeof w.context==='string'?w.context.slice(0,2000):'',sourceURL:safeSourceURL(w.sourceURL)}));
 }
 function setAccountUser(user){
  const newID=user?.id||null,oldID=accountUser?.id||null;accountUser=user||null;
